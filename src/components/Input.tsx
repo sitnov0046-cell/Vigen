@@ -17,7 +17,16 @@ export function Input({
   ...props 
 }: InputProps) {
   const Component = as;
-  
+
+  const baseStyles = `
+    w-full px-3 py-2 text-sm
+    bg-white/10 text-white placeholder-white/50
+    border border-white/20 rounded-lg
+    focus:outline-none focus:ring-2 focus:ring-white/30
+    transition-all duration-200
+    ${error ? 'border-red-500' : ''}
+    ${className}
+  `;
   return (
     <div className="space-y-2 w-full">
       {label && (

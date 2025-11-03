@@ -15,7 +15,16 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`btn-${variant} relative ${isLoading ? 'opacity-70 cursor-not-allowed' : ''} ${className}`}
+      className={`
+        px-4 py-2 rounded-lg font-medium text-sm
+        ${variant === 'primary' 
+          ? 'bg-blue-500 text-white hover:bg-blue-600' 
+          : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+        }
+        ${isLoading ? 'opacity-70 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}
+        transition-all duration-200 ease-in-out
+        ${className}
+      `}
       disabled={isLoading}
       {...props}
     >

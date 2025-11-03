@@ -4,8 +4,14 @@
 
 /* Base styles and background animation */
 @layer base {
-  body {
+  html, body {
     min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  body {
     background: linear-gradient(-45deg, 
       #4a6ea8, /* Приглушенный синий */
       #735bb6, /* Насыщенный фиолетовый */

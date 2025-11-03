@@ -3,6 +3,10 @@ export interface TelegramWebApp {
     ready(): void;
     expand(): void;
     close(): void;
+    viewportHeight?: number;
+    viewportStableHeight?: number;
+    onEvent(eventType: string, callback: Function): void;
+    offEvent(eventType: string, callback: Function): void;
     MainButton: {
       text: string;
       isVisible: boolean;
