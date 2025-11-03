@@ -14,7 +14,7 @@ export default function Home() {
       <div className="container-center">
         {/* Заголовок */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-4xl font-bold text-white mb-3">
             AI Video Generator
           </h1>
           <p className="text-white/80 text-lg mb-6">
@@ -33,7 +33,7 @@ export default function Home() {
           {/* Кнопка открытия формы */}
           <button
             onClick={() => setShowForm(!showForm)}
-            className="w-full max-w-md mx-auto text-lg py-4 px-4 rounded-lg font-medium bg-blue-500 text-white hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-200 ease-in-out flex items-center justify-center gap-2 pulse-button"
+            className="w-full max-w-sm mx-auto text-xl py-4 px-4 rounded-lg font-medium bg-blue-500 text-white hover:bg-blue-600 hover:scale-105 active:scale-95 transition-all duration-200 ease-in-out flex items-center justify-center gap-2 pulse-button"
           >
             <span>✨</span>
             <span>Создать видео</span>
@@ -42,7 +42,7 @@ export default function Home() {
 
         {/* Форма генерации */}
         {showForm && (
-          <div className="mt-8 animate-fadeIn">
+          <div className="mt-8 animate-fadeIn w-full">
             <GenerationForm />
           </div>
         )}

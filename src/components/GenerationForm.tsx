@@ -26,27 +26,27 @@ const GenerationForm = () => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6">
-      <form onSubmit={handleSubmit} className="glass-card space-y-6">
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="glass-card space-y-6 p-6">
         <div className="space-y-4">
-          <label className="block text-white text-lg font-medium">
+          <label className="block text-white font-medium text-lg">
             Опишите видео, которое хотите создать
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="mt-2 w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40 transition-colors"
+              className="mt-2 w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-white/40 transition-colors text-lg placeholder:text-base"
               placeholder="Например: Красивый закат на берегу моря с пальмами..."
               rows={4}
             />
           </label>
 
           <div className="mt-6">
-            <label className="block text-white text-lg font-medium mb-2">
+            <label className="block text-white font-medium mb-2 text-lg">
               Добавить референс (фото)
             </label>
             <div className="flex items-center space-x-4">
               <label className="flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg cursor-pointer hover:bg-white/10 transition-colors">
-                <span className="text-white">📎 Выбрать файл</span>
+                <span className="text-white text-base">📎 Выбрать файл</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -65,6 +65,9 @@ const GenerationForm = () => {
 
         {/* Слайдер выбора модели */}
         <div className="mb-6 mt-8">
+          <label className="block text-white font-medium mb-3">
+            Выберите нейросеть
+          </label>
           <button
             onClick={handleModelChange}
             type="button"
@@ -90,10 +93,10 @@ const GenerationForm = () => {
           </button>
         </div>
 
-        <Button type="submit" className="w-full mt-6 text-lg py-4">
+        <Button type="submit" className="w-full mt-6 text-xl py-4">
           🎬 Начать генерацию
         </Button>
-        <p className="text-center text-white/50 text-sm mt-2">
+        <p className="text-center text-white/70 text-sm italic mt-2">
           При генерации будет списано 2 токена
         </p>
       </form>
