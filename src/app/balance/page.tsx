@@ -194,7 +194,7 @@ export default function BalancePage() {
 
           {/* Кнопка пополнения */}
           <button
-            onClick={() => alert('Функция пополнения будет доступна скоро')}
+            onClick={() => window.location.href = '/pricing'}
             className="mt-2 bg-white text-purple-600 px-6 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-colors w-full"
           >
             Пополнить баланс
