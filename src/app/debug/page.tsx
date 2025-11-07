@@ -8,13 +8,14 @@ export default function DebugPage() {
   const [logs, setLogs] = useState<string[]>([]);
 
   useEffect(() => {
-    const newLogs: string[] = [];
+    const checkTelegram = () => {
+      const newLogs: string[] = [];
 
-    newLogs.push('=== ОТЛАДОЧНАЯ ИНФОРМАЦИЯ ===\n');
+      newLogs.push('=== ОТЛАДОЧНАЯ ИНФОРМАЦИЯ ===\n');
 
-    // Проверка window.Telegram
-    newLogs.push(`✓ window.Telegram существует: ${!!window.Telegram}`);
-    newLogs.push(`✓ window.Telegram.WebApp существует: ${!!window.Telegram?.WebApp}\n`);
+      // Проверка window.Telegram
+      newLogs.push(`✓ window.Telegram существует: ${!!window.Telegram}`);
+      newLogs.push(`✓ window.Telegram.WebApp существует: ${!!window.Telegram?.WebApp}\n`);
 
     if (window.Telegram?.WebApp) {
       const app = window.Telegram.WebApp as any;
@@ -44,7 +45,31 @@ export default function DebugPage() {
       newLogs.push('❌ Приложение открыто в обычном браузере, а не через Telegram');
     }
 
-    setLogs(newLogs);
+      setLogs(newLogs);
+    };
+
+    // Проверяем сразу
+    if (window.Telegram?.WebApp) {
+      checkTelegram();
+    } else {
+      // Ждём загрузки скрипта
+      const interval = setInterval(() => {
+        if (window.Telegram?.WebApp) {
+          clearInterval(interval);
+          checkTelegram();
+        }
+      }, 100);
+
+      const timeout = setTimeout(() => {
+        clearInterval(interval);
+        checkTelegram(); // Проверяем в любом случае через 5 секунд
+      }, 5000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+      };
+    }
   }, [webApp]);
 
   return (

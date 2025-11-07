@@ -12,6 +12,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Video Generator',
   description: 'Generate videos from text using AI',
+  other: {
+    'telegram-web-app': 'https://telegram.org/js/telegram-web-app.js',
+  },
 };
 
 export default function RootLayout({
