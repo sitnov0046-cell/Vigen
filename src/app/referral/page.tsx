@@ -177,20 +177,20 @@ export default function ReferralPage() {
   </div>
 
   {/* Нижний блок: реферальная ссылка и призыв */}
-  <div className="bg-white rounded-2xl p-6 mb-6 shadow flex flex-col items-start">
+  <div className="bg-white rounded-2xl p-4 mb-6 shadow flex flex-col items-start">
     <p className="text-gray-700 text-base font-semibold mb-2">Ваша реферальная ссылка</p>
     <div className="flex w-full gap-2 mb-3">
       <input
         type="text"
         value={referralLink}
         readOnly
-        className="flex-1 px-4 py-3 rounded-xl bg-gray-100 text-gray-800 placeholder-gray-400 border border-gray-200 outline-none"
+        className="flex-1 px-3 py-2 rounded-xl bg-gray-100 text-gray-800 text-sm placeholder-gray-400 border border-gray-200 outline-none overflow-hidden text-ellipsis"
       />
       <button
         onClick={copyReferralLink}
-        className="px-6 py-3 bg-white text-gray-900 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors"
+        className="px-3 py-2 bg-white text-gray-900 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors whitespace-nowrap text-sm"
       >
-        {copiedLink ? '✓ Скопировано' : '📋 Копировать'}
+        {copiedLink ? '✓' : '📋'}
       </button>
     </div>
     <p className="text-gray-600 text-sm mb-1">Поделитесь этой ссылкой с друзьями в сообщениях или выложите в сторис, чтобы получать бонусы за их регистрацию!</p>

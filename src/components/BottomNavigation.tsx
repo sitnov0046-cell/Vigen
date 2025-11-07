@@ -28,14 +28,14 @@ export function BottomNavigation() {
             <Link
               key={item.path}
               href={item.path}
-              className={`flex flex-col items-center px-4 py-2 rounded-xl transition-all duration-300 ease-in-out
-                ${pathname === item.path 
-                  ? 'text-white scale-110 bg-blue-500 shadow-md shadow-blue-500/30' 
+              className={`flex flex-col items-center px-2 py-2 rounded-xl transition-all duration-300 ease-in-out
+                ${pathname === item.path
+                  ? 'text-white scale-110 bg-blue-500 shadow-md shadow-blue-500/30'
                   : 'text-white/80 hover:text-white hover:bg-white/10 hover:scale-105'
                 }`}
             >
               <span className="text-xl mb-1">{item.icon}</span>
-              <span className="text-xs font-medium">{item.name}</span>
+              <span className="text-xs font-medium whitespace-nowrap">{item.name}</span>
             </Link>
           ))}
         </div>
