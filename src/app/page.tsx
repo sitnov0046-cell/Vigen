@@ -166,6 +166,16 @@ export default function Home() {
                 <span>Инструкция</span>
               </Link>
             </div>
+
+            {/* Временная кнопка Debug - УБРАТЬ ПОСЛЕ ОТЛАДКИ */}
+            <div className="flex justify-center my-3">
+              <Link
+                href="/debug"
+                className="px-4 py-2 rounded-lg bg-yellow-500 text-black font-semibold text-sm hover:scale-105 transition-all"
+              >
+                🔍 Debug Info
+              </Link>
+            </div>
           </div>
 
           {/* Форма генерации */}
