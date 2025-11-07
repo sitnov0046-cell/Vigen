@@ -17,12 +17,12 @@ export default function DebugPage() {
     newLogs.push(`✓ window.Telegram.WebApp существует: ${!!window.Telegram?.WebApp}\n`);
 
     if (window.Telegram?.WebApp) {
-      const app = window.Telegram.WebApp;
+      const app = window.Telegram.WebApp as any;
 
       newLogs.push('=== ДАННЫЕ TELEGRAM WEBAPP ===');
       newLogs.push(`✓ initData: ${app.initData || '(пусто)'}`);
-      newLogs.push(`✓ platform: ${app.platform}`);
-      newLogs.push(`✓ version: ${app.version}\n`);
+      newLogs.push(`✓ platform: ${app.platform || 'unknown'}`);
+      newLogs.push(`✓ version: ${app.version || 'unknown'}\n`);
 
       newLogs.push('=== ПОЛЬЗОВАТЕЛЬ ===');
       if (app.initDataUnsafe?.user) {
