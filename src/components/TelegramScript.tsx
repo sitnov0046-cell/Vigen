@@ -7,9 +7,6 @@ export function TelegramScript() {
     <Script
       src="https://telegram.org/js/telegram-web-app.js"
       strategy="afterInteractive"
-      onLoad={() => {
-        console.log('Telegram WebApp script loaded!');
-      }}
     />
   );
 }

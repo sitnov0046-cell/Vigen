@@ -6,19 +6,10 @@ export function useTelegramWebApp() {
   const [viewportHeight, setViewportHeight] = useState(0);
 
   useEffect(() => {
-    console.log('=== useTelegramWebApp: Инициализация ===');
-
     // Функция для инициализации WebApp
     const initWebApp = () => {
-      console.log('window.Telegram существует?', !!window.Telegram);
-      console.log('window.Telegram.WebApp существует?', !!window.Telegram?.WebApp);
-
       const app = window.Telegram?.WebApp;
       if (app) {
-        console.log('Telegram WebApp найден!');
-        console.log('initData:', app.initData);
-        console.log('initDataUnsafe:', app.initDataUnsafe);
-        console.log('User:', app.initDataUnsafe?.user);
 
         setWebApp(app);
 
@@ -40,8 +31,6 @@ export function useTelegramWebApp() {
         return () => {
           app.offEvent('viewportChanged', updateViewportHeight);
         };
-      } else {
-        console.warn('Telegram WebApp НЕ найден! Приложение открыто вне Telegram?');
       }
     };
 
@@ -50,10 +39,8 @@ export function useTelegramWebApp() {
       initWebApp();
     } else {
       // Ждём загрузки скрипта
-      console.log('Ожидание загрузки Telegram WebApp скрипта...');
       const checkInterval = setInterval(() => {
         if (window.Telegram?.WebApp) {
-          console.log('Telegram WebApp скрипт загружен!');
           clearInterval(checkInterval);
           initWebApp();
         }
@@ -62,7 +49,6 @@ export function useTelegramWebApp() {
       // Очистка интервала через 10 секунд, если скрипт не загрузился
       const timeout = setTimeout(() => {
         clearInterval(checkInterval);
-        console.error('Timeout: Telegram WebApp скрипт не загрузился за 10 секунд');
       }, 10000);
 
       return () => {

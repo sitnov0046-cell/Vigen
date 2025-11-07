@@ -25,17 +25,11 @@ export default function Home() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      // Отладка: проверяем наличие данных Telegram
-      console.log('WebApp данные:', webApp);
-      console.log('User ID:', webApp?.initDataUnsafe?.user?.id);
-
       if (!webApp?.initDataUnsafe?.user?.id) {
-        console.log('Нет данных Telegram WebApp - используем моковые данные');
         return;
       }
 
       const telegramId = webApp.initDataUnsafe.user.id;
-      console.log('Загружаем данные для telegramId:', telegramId);
 
       setUserInfo((prev) => ({
         ...prev,
@@ -44,25 +38,19 @@ export default function Home() {
       }));
 
       try {
-        // Загружаем статистику пользователя
         const statsRes = await fetch(`/api/user/stats?telegramId=${telegramId}`);
-        console.log('Stats API response status:', statsRes.status);
 
         if (statsRes.ok) {
           const statsData = await statsRes.json();
-          console.log('Stats данные получены:', statsData);
           setUserInfo((prev) => ({
             ...prev,
             balance: statsData.balance,
             videosCount: statsData.videosCount,
             referralsCount: statsData.referralsCount
           }));
-        } else {
-          const error = await statsRes.json();
-          console.error('Ошибка получения статистики:', error);
         }
       } catch (error) {
-        console.error('Исключение при загрузке статистики:', error);
+        console.error('Failed to load user stats:', error);
       }
     };
     fetchUserInfo();
@@ -164,16 +152,6 @@ export default function Home() {
               >
                 <span>📖</span>
                 <span>Инструкция</span>
-              </Link>
-            </div>
-
-            {/* Временная кнопка Debug - УБРАТЬ ПОСЛЕ ОТЛАДКИ */}
-            <div className="flex justify-center my-3">
-              <Link
-                href="/debug"
-                className="px-4 py-2 rounded-lg bg-yellow-500 text-black font-semibold text-sm hover:scale-105 transition-all"
-              >
-                🔍 Debug Info
               </Link>
             </div>
           </div>
