@@ -157,9 +157,15 @@ export default function InstructionsPage() {
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border-2 border-gray-300 mb-4">
             <p className="text-gray-800 leading-relaxed">
               <span className="font-bold text-purple-600">Сцена:</span> Пожилая женщина сидит на деревянной скамейке в летнем парке,
-              в руках держит пакет семечек. <span className="font-bold text-blue-600">Стиль:</span> Яркий солнечный день,
-              винтажная эстетика 1980-х годов, тёплые цвета. <span className="font-bold text-pink-600">Камера:</span> Плавно
-              приближается к персонажу. <span className="font-bold text-green-600">Звук:</span> Женщина произносит:
+              в руках держит пакет семечек.
+              <br />
+              <span className="font-bold text-blue-600">Стиль:</span> Яркий солнечный день,
+              винтажная эстетика 1980-х годов, тёплые цвета.
+              <br />
+              <span className="font-bold text-pink-600">Камера:</span> Плавно
+              приближается к персонажу.
+              <br />
+              <span className="font-bold text-green-600">Звук:</span> Женщина произносит:
               &ldquo;Здравствуйте, дорогие! Сегодня научу вас создавать видео с помощью нейросетей.&rdquo;
             </p>
           </div>

@@ -108,8 +108,8 @@ export default function Home() {
           {/* Блок с информацией о пользователе */}
           {/* Заголовок */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-800 mb-3">
-              AI Video Generator
+            <h1 className="text-3xl font-bold text-gray-800 mb-3 whitespace-nowrap">
+              Генератор видео - VIGEN
             </h1>
             <p className="text-gray-600 text-lg mb-6">
               Создавайте потрясающие видео с помощью ИИ и делитесь ими с друзьями
