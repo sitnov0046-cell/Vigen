@@ -59,37 +59,44 @@ export default function ReferralPage() {
     try {
       setLoading(true);
 
-      // TODO: Заменить на реальные API запросы
-      // const response = await fetch(`/api/referrals?userId=${userId}`);
-      // const data = await response.json();
+      // Загрузить статистику пользователя
+      const statsResponse = await fetch(`/api/referral/stats?telegramId=${userId}`);
+      if (!statsResponse.ok) {
+        throw new Error('Failed to fetch referral stats');
+      }
+      const statsData = await statsResponse.json();
 
-      // Временные данные для демонстрации
-      setReferrals([
-        { id: 1, username: 'user123', totalEarned: 50, earnedToday: 10, joinedAt: '2025-01-01' },
-        { id: 2, username: 'alice_video', totalEarned: 120, earnedToday: 0, joinedAt: '2025-01-03' },
-        { id: 3, username: 'bob_creator', totalEarned: 30, earnedToday: 5, joinedAt: '2025-01-05' },
-      ]);
+      // Загрузить лидерборд
+      const leaderboardResponse = await fetch('/api/referral/leaderboard');
+      if (!leaderboardResponse.ok) {
+        throw new Error('Failed to fetch leaderboard');
+      }
+      const leaderboardData = await leaderboardResponse.json();
 
-      setBonusHistory([
-        { id: 1, amount: 5, referralUsername: 'bob_creator', description: 'Генерация видео', createdAt: new Date().toISOString() },
-        { id: 2, amount: 10, referralUsername: 'user123', description: 'Генерация видео', createdAt: new Date(Date.now() - 3600000).toISOString() },
-        { id: 3, amount: 15, referralUsername: 'alice_video', description: 'Покупка токенов', createdAt: new Date(Date.now() - 7200000).toISOString() },
-      ]);
+      // Установить данные из API
+      setTotalEarned(statsData.totalEarned || 0);
+      setEarnedToday(statsData.earnedToday || 0);
+      setReferrals(statsData.referrals || []);
+      setBonusHistory(statsData.bonusHistory || []);
 
-      // Генерируем 120 тестовых топ-рефералов
-      const testLeaderboard = Array.from({ length: 120 }, (_, i) => ({
-        rank: i + 1,
-        username: i === 14 ? 'Вы' : `user${i + 1}`,
-        referralCount: Math.floor(Math.random() * 200) + 1,
-        totalEarned: Math.floor(Math.random() * 10000) + 100,
-        isCurrentUser: i === 14
+      // Преобразовать лидерборд в нужный формат
+      const formattedLeaderboard = leaderboardData.leaderboard.map((entry: any) => ({
+        rank: entry.position,
+        username: entry.referrer?.username || 'Unknown',
+        referralCount: entry.newReferrals,
+        totalEarned: entry.totalSpending,
+        isCurrentUser: entry.referrer?.telegramId === String(userId),
       }));
-      setLeaderboard(testLeaderboard);
 
-      setTotalEarned(200);
-      setEarnedToday(15);
+      setLeaderboard(formattedLeaderboard);
     } catch (error) {
       console.error('Ошибка загрузки реферальных данных:', error);
+      // В случае ошибки оставляем пустые данные
+      setTotalEarned(0);
+      setEarnedToday(0);
+      setReferrals([]);
+      setBonusHistory([]);
+      setLeaderboard([]);
     } finally {
       setLoading(false);
     }
