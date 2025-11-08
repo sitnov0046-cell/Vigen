@@ -33,15 +33,6 @@ export async function GET(request: NextRequest) {
       orderBy: {
         newReferrals: 'desc', // Сортировка по убыванию НОВЫХ рефералов
       },
-      include: {
-        referrer: {
-          select: {
-            id: true,
-            username: true,
-            telegramId: true,
-          },
-        },
-      },
     });
 
     // Получить реферера через связь User -> Referral с учётом равных позиций
