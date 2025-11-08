@@ -34,16 +34,6 @@ export async function GET(request: NextRequest) {
     // 1. Получить всех рефералов пользователя
     const referrals = await prisma.referral.findMany({
       where: { referrerId: user.id },
-      include: {
-        referred: {
-          select: {
-            id: true,
-            username: true,
-            telegramId: true,
-            createdAt: true,
-          },
-        },
-      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -85,14 +75,25 @@ export async function GET(request: NextRequest) {
     // 5. Для каждого реферала рассчитать totalEarned и earnedToday
     const referralsWithStats = await Promise.all(
       referrals.map(async (ref) => {
-        // Получить все транзакции, связанные с этим рефералом
-        // Это траты реферала, которые принесли бонусы рефереру
-        const referredUserId = ref.referred.id;
+        // Получить данные приглашенного пользователя
+        const referredUser = await prisma.user.findUnique({
+          where: { id: ref.referredId },
+          select: {
+            id: true,
+            username: true,
+            telegramId: true,
+            createdAt: true,
+          },
+        });
+
+        if (!referredUser) {
+          return null;
+        }
 
         // Получить все траты реферала
         const referredTransactions = await prisma.transaction.findMany({
           where: {
-            userId: referredUserId,
+            userId: referredUser.id,
             OR: [
               { type: 'video_generation' },
               { type: 'deposit' },
@@ -120,14 +121,17 @@ export async function GET(request: NextRequest) {
 
         return {
           id: ref.id,
-          username: ref.referred.username || `User${ref.referred.telegramId}`,
-          telegramId: ref.referred.telegramId,
+          username: referredUser.username || `User${referredUser.telegramId}`,
+          telegramId: referredUser.telegramId,
           totalEarned: totalEarnedFromRef,
           earnedToday: earnedTodayFromRef,
           joinedAt: ref.createdAt.toISOString(),
         };
       })
     );
+
+    // Убрать null значения
+    const validReferrals = referralsWithStats.filter((r) => r !== null);
 
     // 6. Получить историю бонусов (последние 20)
     const bonusHistory = allBonusTransactions.slice(0, 20).map((tx) => ({
@@ -141,9 +145,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       totalEarned,
       earnedToday,
-      referrals: referralsWithStats,
+      referrals: validReferrals,
       bonusHistory,
-      referralCount: referrals.length,
+      referralCount: validReferrals.length,
     });
   } catch (error: any) {
     console.error('Error fetching referral stats:', error);
