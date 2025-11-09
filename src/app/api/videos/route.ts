@@ -70,9 +70,12 @@ export async function POST(request: Request) {
     const video = await prisma.video.create({
       data: {
         title,
+        prompt: title, // Используем title как prompt по умолчанию
         telegramFileId: fileId,
         thumbnailFileId: thumbnailId,
-        userId: user.id
+        userId: user.id,
+        tokensCost: 0, // Стоимость 0 для уже созданных видео
+        status: 'completed', // Видео уже создано
       }
     });
 
