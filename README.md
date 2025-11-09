@@ -20,7 +20,7 @@
 
 1. Клонировать репозиторий:
 ```bash
-git clone https://github.com/sitnov0046-cell/Vigen.git
+git clone https://github.com/sitnov0046-cell/LIKS.git
 ```
 
 2. Установить зависимости:

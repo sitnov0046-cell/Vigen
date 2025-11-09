@@ -37,8 +37,8 @@ npm install -g pm2
 
 # 4. Создание директории для проекта
 echo -e "${GREEN}[4/8] Настройка директории проекта...${NC}"
-mkdir -p /var/www/vigen
-cd /var/www/vigen
+mkdir -p /var/www/liks
+cd /var/www/liks
 
 # Создание .env файла
 echo -e "${YELLOW}Введите DATABASE_URL (строку подключения к PostgreSQL):${NC}"
@@ -58,7 +58,7 @@ apt install -y nginx
 
 # 6. Настройка Nginx
 echo -e "${GREEN}[6/8] Настройка Nginx...${NC}"
-cat > /etc/nginx/sites-available/vigen << EOF
+cat > /etc/nginx/sites-available/liks << EOF
 server {
     listen 80;
     server_name ${DOMAIN} www.${DOMAIN};
@@ -78,7 +78,7 @@ server {
 EOF
 
 # Активация конфига
-ln -sf /etc/nginx/sites-available/vigen /etc/nginx/sites-enabled/
+ln -sf /etc/nginx/sites-available/liks /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 
 # Проверка конфига Nginx
@@ -113,14 +113,14 @@ echo "   git add ."
 echo "   git commit -m 'initial commit'"
 echo ""
 echo "2. Или используйте rsync:"
-echo "   rsync -avz --exclude 'node_modules' --exclude '.next' webapp/ root@your-server:/var/www/vigen/"
+echo "   rsync -avz --exclude 'node_modules' --exclude '.next' webapp/ root@your-server:/var/www/liks/"
 echo ""
 echo "3. На сервере выполните:"
-echo "   cd /var/www/vigen"
+echo "   cd /var/www/liks"
 echo "   npm install"
 echo "   npx prisma generate"
 echo "   npm run build"
-echo "   pm2 start npm --name vigen-app -- start"
+echo "   pm2 start npm --name liks-app -- start"
 echo "   pm2 save"
 echo "   pm2 startup"
 echo ""
@@ -128,6 +128,6 @@ echo -e "${GREEN}Ваше приложение будет доступно по 
 echo ""
 echo "Полезные команды PM2:"
 echo "  pm2 status          - статус приложений"
-echo "  pm2 logs vigen-app  - просмотр логов"
-echo "  pm2 restart vigen-app - перезапуск"
-echo "  pm2 stop vigen-app  - остановка"
+echo "  pm2 logs liks-app  - просмотр логов"
+echo "  pm2 restart liks-app - перезапуск"
+echo "  pm2 stop liks-app  - остановка"

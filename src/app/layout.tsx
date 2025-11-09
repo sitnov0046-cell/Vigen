@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Video Generator',
-  description: 'Generate videos from text using AI',
+  title: 'LIKS - AI Video Generator',
+  description: 'Создавайте потрясающие видео с помощью ИИ в LIKS',
   other: {
     'telegram-web-app': 'https://telegram.org/js/telegram-web-app.js',
   },

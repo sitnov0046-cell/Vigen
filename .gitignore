@@ -22,6 +22,10 @@
 .env.test.local
 .env.production.local
 
+# uploaded files
+/public/uploads/*
+!/public/uploads/.gitkeep
+
 # debug
 npm-debug.log*
 yarn-debug.log*

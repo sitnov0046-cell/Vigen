@@ -40,7 +40,7 @@ chmod +x deploy-timeweb.sh
 
 1. На локальной машине запушь код в GitHub:
 ```bash
-cd c:\Users\sitno\OneDrive\Рабочий стол\Vigen\webapp
+cd c:\Users\sitno\OneDrive\Рабочий стол\LIKS\webapp
 git add .
 git commit -m "feat: ready for deployment"
 git push origin main
@@ -48,19 +48,19 @@ git push origin main
 
 2. На сервере клонируй репозиторий:
 ```bash
-cd /var/www/vigen
+cd /var/www/liks
 git clone https://github.com/твой-username/твой-репозиторий.git .
 ```
 
 ### Вариант Б: Через FileZilla/SCP
 
-Загрузи все файлы проекта (кроме `node_modules` и `.next`) в `/var/www/vigen/`
+Загрузи все файлы проекта (кроме `node_modules` и `.next`) в `/var/www/liks/`
 
 ### Вариант В: Через rsync (быстрый способ)
 
 На локальной машине:
 ```bash
-rsync -avz --exclude 'node_modules' --exclude '.next' --exclude '.git' webapp/ root@your-server-ip:/var/www/vigen/
+rsync -avz --exclude 'node_modules' --exclude '.next' --exclude '.git' webapp/ root@your-server-ip:/var/www/liks/
 ```
 
 ## Шаг 4: Установка зависимостей и запуск
@@ -68,7 +68,7 @@ rsync -avz --exclude 'node_modules' --exclude '.next' --exclude '.git' webapp/ r
 На сервере:
 
 ```bash
-cd /var/www/vigen
+cd /var/www/liks
 
 # Установка зависимостей
 npm install
@@ -83,7 +83,7 @@ npx prisma db push
 npm run build
 
 # Запуск с помощью PM2
-pm2 start npm --name vigen-app -- start
+pm2 start npm --name liks-app -- start
 
 # Сохранение конфигурации PM2
 pm2 save
@@ -108,28 +108,28 @@ pm2 startup
 pm2 status
 
 # Просмотр логов
-pm2 logs vigen-app
+pm2 logs liks-app
 
 # Перезапуск после изменений
-pm2 restart vigen-app
+pm2 restart liks-app
 
 # Остановка
-pm2 stop vigen-app
+pm2 stop liks-app
 
 # Удаление из PM2
-pm2 delete vigen-app
+pm2 delete liks-app
 ```
 
 ### Обновление кода:
 
 ```bash
-cd /var/www/vigen
+cd /var/www/liks
 
 # Через Git
 git pull origin main
 
 # Или через rsync с локальной машины
-# rsync -avz --exclude 'node_modules' --exclude '.next' webapp/ root@your-server-ip:/var/www/vigen/
+# rsync -avz --exclude 'node_modules' --exclude '.next' webapp/ root@your-server-ip:/var/www/liks/
 
 # Установка новых зависимостей (если есть)
 npm install
@@ -138,7 +138,7 @@ npm install
 npm run build
 
 # Перезапуск
-pm2 restart vigen-app
+pm2 restart liks-app
 ```
 
 ### Просмотр логов Nginx:
@@ -182,7 +182,7 @@ keyboard = InlineKeyboardMarkup([
 ])
 
 await update.message.reply_text(
-    "Добро пожаловать в Vigen!",
+    "Добро пожаловать в LIKS!",
     reply_markup=keyboard
 )
 ```
@@ -202,15 +202,15 @@ systemctl status certbot.timer
 ## Troubleshooting
 
 ### Ошибка "Cannot connect to database"
-Проверь `DATABASE_URL` в `/var/www/vigen/.env`
+Проверь `DATABASE_URL` в `/var/www/liks/.env`
 
 ### Приложение не запускается
 ```bash
 # Проверь логи PM2
-pm2 logs vigen-app
+pm2 logs liks-app
 
 # Попробуй запустить вручную для отладки
-cd /var/www/vigen
+cd /var/www/liks
 npm start
 ```
 
@@ -249,7 +249,7 @@ pm2 set pm2-logrotate:retain 30
 Теперь твоё приложение работает на `https://твой-домен.ru` с автоматически обновляемым SSL сертификатом!
 
 **Важные файлы на сервере:**
-- Код приложения: `/var/www/vigen/`
-- Конфиг Nginx: `/etc/nginx/sites-available/vigen`
+- Код приложения: `/var/www/liks/`
+- Конфиг Nginx: `/etc/nginx/sites-available/liks`
 - SSL сертификаты: `/etc/letsencrypt/live/твой-домен.ru/`
 - Логи PM2: `~/.pm2/logs/`

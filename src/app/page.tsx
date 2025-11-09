@@ -131,14 +131,14 @@ export default function Home() {
           {/* Заголовок */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800 mb-3 whitespace-nowrap">
-              Генератор видео - VIGEN
+              Генератор видео - LIKS
             </h1>
             <p className="text-gray-600 text-lg mb-6">
               Создавайте потрясающие видео с помощью ИИ и делитесь ими с друзьями
             </p>
 
             {/* Блок информации о пользователе */}
-            <div className="relative flex items-center gap-5 bg-white/80 rounded-3xl shadow-xl p-5 my-5 border-2 border-transparent bg-clip-padding animate-fadeIn">
+            <div className="relative flex items-center gap-5 bg-white/90 rounded-3xl shadow-xl p-5 my-5 border-4 border-blue-400 bg-clip-padding animate-fadeIn hover:shadow-2xl hover:border-blue-500 transition-all duration-300">
               {userInfo.photoUrl || mockUser.photoUrl ? (
                 <img src={userInfo.photoUrl || mockUser.photoUrl} alt="avatar" className="w-16 h-16 rounded-full border-4 border-white shadow-lg object-cover transition-transform duration-300 hover:scale-105" />
               ) : (

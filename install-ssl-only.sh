@@ -22,7 +22,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Запрос домена
-echo -e "${YELLOW}Введи домен (например: vigentop.ru):${NC}"
+echo -e "${YELLOW}Введи домен (например: liks.ru):${NC}"
 read DOMAIN
 
 echo -e "${YELLOW}Введи email для уведомлений о SSL:${NC}"

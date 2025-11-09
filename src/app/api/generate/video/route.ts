@@ -8,10 +8,70 @@ export const dynamic = 'force-dynamic';
 /**
  * POST /api/generate/video
  * Начать генерацию видео
+ *
+ * Поддерживает два формата:
+ * 1. JSON: { telegramId, prompt, tariffId, imageUrl } - старый формат
+ * 2. FormData: { prompt, model, image? } - новый формат от GenerationForm
  */
 export async function POST(request: NextRequest) {
   try {
-    const { telegramId, prompt, tariffId, imageUrl } = await request.json();
+    console.log('=== POST /api/generate/video START ===');
+    const contentType = request.headers.get('content-type');
+    console.log('Content-Type:', contentType);
+    let telegramId, prompt, model, imageFile, tariffId, imageUrl, aspectRatio, duration;
+
+    // Обработка FormData (новый формат)
+    if (contentType?.includes('multipart/form-data')) {
+      console.log('Processing FormData...');
+      const formData = await request.formData();
+      prompt = formData.get('prompt') as string;
+      model = formData.get('model') as 'sora' | 'veo'; // 'sora' или 'veo'
+      telegramId = formData.get('telegramId') as string;
+      imageFile = formData.get('image') as File | null;
+      aspectRatio = formData.get('aspectRatio') as string || '16:9';
+      duration = formData.get('duration') ? parseInt(formData.get('duration') as string) : undefined;
+
+      console.log('FormData parsed:', {
+        prompt: prompt?.substring(0, 50),
+        model,
+        telegramId,
+        hasImage: !!imageFile,
+        aspectRatio,
+        duration
+      });
+
+      // Загрузить изображение если есть и получить публичный URL
+      if (imageFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', imageFile);
+
+        const uploadResponse = await fetch(`${request.nextUrl.origin}/api/upload`, {
+          method: 'POST',
+          body: uploadFormData,
+        });
+
+        if (!uploadResponse.ok) {
+          return NextResponse.json(
+            { error: 'Failed to upload image' },
+            { status: 500 }
+          );
+        }
+
+        const uploadData = await uploadResponse.json();
+        // Преобразуем относительный URL в абсолютный для KIE.AI
+        imageUrl = `${request.nextUrl.origin}${uploadData.url}`;
+      }
+
+      // Определить тариф по модели (используем базовый тариф)
+      tariffId = model === 'sora' ? 'sora-basic' : 'veo-basic';
+    } else {
+      // Обработка JSON (старый формат)
+      const body = await request.json();
+      telegramId = body.telegramId;
+      prompt = body.prompt;
+      tariffId = body.tariffId;
+      imageUrl = body.imageUrl;
+    }
 
     if (!telegramId || !prompt || !tariffId) {
       return NextResponse.json(
@@ -50,12 +110,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Создать запись о видео со статусом "pending"
+    const actualDuration = duration || tariff.duration; // Используем выбранную длительность или дефолтную
     const video = await prisma.video.create({
       data: {
         title: prompt.substring(0, 100), // Первые 100 символов промпта
         prompt,
         model: tariff.model,
-        duration: tariff.duration,
+        duration: actualDuration,
         tokensCost: tariff.tokens,
         status: 'pending',
         userId: user.id,
@@ -74,7 +135,7 @@ export async function POST(request: NextRequest) {
         userId: user.id,
         amount: -tariff.tokens,
         type: 'video_generation',
-        description: `Генерация видео "${prompt.substring(0, 50)}" (${tariff.name}, ${tariff.duration}с)`,
+        description: `Генерация видео "${prompt.substring(0, 50)}" (${tariff.name}, ${actualDuration}с)`,
       },
     });
 
@@ -83,8 +144,9 @@ export async function POST(request: NextRequest) {
       const kieResponse = await generateVideo({
         prompt,
         model: tariff.model,
-        duration: tariff.duration,
+        duration: actualDuration,
         image_url: imageUrl,
+        aspect_ratio: aspectRatio,
       });
 
       // Обновить статус и сохранить job_id

@@ -8,6 +8,7 @@ export interface GenerateVideoParams {
   model: 'sora-2' | 'veo-3-fast';
   duration: number; // в секундах
   image_url?: string; // опционально, для image-to-video
+  aspect_ratio?: string; // опционально, например '16:9' или '9:16'
 }
 
 export interface GenerateVideoResponse {
@@ -28,24 +29,80 @@ export interface CheckJobStatusResponse {
 
 /**
  * Начать генерацию видео через KIE.AI
+ *
+ * SORA 2:
+ * - Без изображения: Text-to-Video mode
+ * - С изображением: Image-to-Video mode (анимация изображения согласно описанию движения)
+ *
+ * Veo 3:
+ * - Без изображения: TEXT_2_VIDEO mode
+ * - С изображением: REFERENCE_2_VIDEO mode (изображение как референс стиля)
  */
 export async function generateVideo(params: GenerateVideoParams): Promise<GenerateVideoResponse> {
   if (!KIE_AI_API_KEY) {
     throw new Error('KIE_AI_API_KEY не установлен');
   }
 
-  const response = await fetch(`${KIE_AI_BASE_URL}/generate`, {
+  // Определяем endpoint и параметры в зависимости от модели и наличия изображения
+  let endpoint: string;
+  let requestBody: any;
+
+  if (params.model === 'sora-2') {
+    if (params.image_url) {
+      // SORA 2: Image-to-Video mode
+      endpoint = `${KIE_AI_BASE_URL}/sora-2/image-to-video`;
+      requestBody = {
+        prompt: params.prompt, // Описание движения
+        image_url: params.image_url,
+        duration: params.duration,
+      };
+      if (params.aspect_ratio) {
+        requestBody.aspect_ratio = params.aspect_ratio;
+      }
+    } else {
+      // SORA 2: Text-to-Video mode
+      endpoint = `${KIE_AI_BASE_URL}/sora-2/text-to-video`;
+      requestBody = {
+        prompt: params.prompt,
+        duration: params.duration,
+      };
+      if (params.aspect_ratio) {
+        requestBody.aspect_ratio = params.aspect_ratio;
+      }
+    }
+  } else {
+    // Veo 3
+    if (params.image_url) {
+      // Veo 3: REFERENCE_2_VIDEO mode
+      endpoint = `${KIE_AI_BASE_URL}/veo-3/reference-to-video`;
+      requestBody = {
+        prompt: params.prompt, // Описание желаемого видео
+        reference_image_url: params.image_url, // Референс стиля
+      };
+      // Veo 3 поддерживает aspect_ratio
+      if (params.aspect_ratio) {
+        requestBody.aspect_ratio = params.aspect_ratio;
+      }
+    } else {
+      // Veo 3: TEXT_2_VIDEO mode
+      endpoint = `${KIE_AI_BASE_URL}/veo-3/text-to-video`;
+      requestBody = {
+        prompt: params.prompt,
+      };
+      // Veo 3 поддерживает aspect_ratio
+      if (params.aspect_ratio) {
+        requestBody.aspect_ratio = params.aspect_ratio;
+      }
+    }
+  }
+
+  const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${KIE_AI_API_KEY}`,
     },
-    body: JSON.stringify({
-      model: params.model === 'sora-2' ? 'sora-2-standard' : 'veo-3-fast',
-      prompt: params.prompt,
-      duration: params.duration,
-      image_url: params.image_url,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!response.ok) {

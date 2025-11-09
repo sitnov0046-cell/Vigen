@@ -53,7 +53,7 @@ export function SplashScreen({ onFinish, duration = 2500 }: SplashScreenProps) {
             letterSpacing: '0.1em',
             fontFamily: 'system-ui, -apple-system, sans-serif'
           }}>
-            VIGEN
+            LIKS
           </div>
           <div className="text-white text-xl mt-2 opacity-90" style={{
             textShadow: '0 2px 8px rgba(0,0,0,0.3)',

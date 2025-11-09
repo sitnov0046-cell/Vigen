@@ -11,30 +11,39 @@ export interface VideoTariff {
 }
 
 export const VIDEO_TARIFFS: VideoTariff[] = [
+  // SORA 2 тарифы
   {
-    id: 'mini',
-    name: 'Мини',
+    id: 'sora-basic',
+    name: 'SORA 2 - Базовый',
     duration: 5,
-    tokens: 29,
+    tokens: 2,
     model: 'sora-2',
     description: '5 секунд видео',
   },
   {
-    id: 'standard',
-    name: 'Стандарт',
+    id: 'sora-standard',
+    name: 'SORA 2 - Стандарт',
     duration: 10,
-    tokens: 49,
+    tokens: 2,
     model: 'sora-2',
     description: '10 секунд видео',
-    popular: true,
   },
   {
-    id: 'maxi',
-    name: 'Макси',
+    id: 'sora-extended',
+    name: 'SORA 2 - Расширенный',
     duration: 15,
-    tokens: 69,
+    tokens: 2,
     model: 'sora-2',
     description: '15 секунд видео',
+  },
+  // Veo 3 тариф
+  {
+    id: 'veo-basic',
+    name: 'Veo 3 - Базовый',
+    duration: 8,
+    tokens: 2,
+    model: 'veo-3-fast',
+    description: '8 секунд видео',
   },
 ];
 

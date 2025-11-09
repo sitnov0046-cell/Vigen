@@ -17,7 +17,7 @@ git push origin main
 
 ### Шаг 3: Импорт проекта
 1. На главной странице Vercel нажми **"Add New Project"**
-2. Выбери свой репозиторий `Vigen`
+2. Выбери свой репозиторий `LIKS`
 3. Vercel автоматически определит Next.js
 
 ### Шаг 4: Настройка переменных окружения
@@ -30,7 +30,7 @@ DATABASE_URL=postgresql://...твоя_строка_подключения_из_.
 ### Шаг 5: Deploy
 1. Нажми **"Deploy"**
 2. Дождись окончания сборки (2-3 минуты)
-3. Получишь HTTPS URL вида: `https://vigen-xxx.vercel.app`
+3. Получишь HTTPS URL вида: `https://liks-xxx.vercel.app`
 
 ### Шаг 6: Настройка своего домена (опционально)
 1. В настройках проекта → **Domains**
@@ -95,8 +95,8 @@ sudo apt-get install -y nodejs
 ### 2. Клонирование проекта
 ```bash
 cd /var/www
-git clone https://github.com/твой-username/Vigen.git
-cd Vigen/webapp
+git clone https://github.com/твой-username/LIKS.git
+cd LIKS/webapp
 npm install
 npm run build
 ```
@@ -104,7 +104,7 @@ npm run build
 ### 3. Установка PM2
 ```bash
 sudo npm install -g pm2
-pm2 start npm --name "vigen-app" -- start
+pm2 start npm --name "liks-app" -- start
 pm2 save
 pm2 startup
 ```
@@ -116,7 +116,7 @@ sudo apt install nginx
 ```
 
 ### 5. Настройка Nginx
-Создай файл `/etc/nginx/sites-available/vigen`:
+Создай файл `/etc/nginx/sites-available/liks`:
 
 ```nginx
 server {
@@ -136,7 +136,7 @@ server {
 
 Активируй конфиг:
 ```bash
-sudo ln -s /etc/nginx/sites-available/vigen /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/liks /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
 ```
@@ -155,8 +155,8 @@ Certbot автоматически настроит HTTPS!
 
 ### 1. Получи HTTPS URL
 После деплоя у тебя будет URL вида:
-- Vercel: `https://vigen-xxx.vercel.app`
-- Netlify: `https://vigen-xxx.netlify.app`
+- Vercel: `https://liks-xxx.vercel.app`
+- Netlify: `https://liks-xxx.netlify.app`
 - Свой домен: `https://твой-домен.ru`
 
 ### 2. Настрой Web App в боте
