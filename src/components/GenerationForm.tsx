@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button } from './Button';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
+import { VIDEO_TARIFFS } from '@/config/video-tariffs';
 
 type Model = 'sora' | 'veo';
 type AspectRatio = '16:9' | '9:16';
@@ -118,6 +119,19 @@ const GenerationForm = () => {
     }
   };
 
+  // Расчёт стоимости в токенах на основе выбранных настроек
+  const tokenCost = useMemo(() => {
+    if (selectedModel === 'veo') {
+      // Veo 3 - всегда 8 секунд, 13 токенов
+      const veoTariff = VIDEO_TARIFFS.find(t => t.model === 'veo-3-fast');
+      return veoTariff?.tokens || 13;
+    } else {
+      // SORA 2 - зависит от длительности
+      const soraTariff = VIDEO_TARIFFS.find(t => t.model === 'sora-2' && t.duration === duration);
+      return soraTariff?.tokens || 6;
+    }
+  }, [selectedModel, duration]);
+
   return (
     <div className="w-full">
       <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-gradient">
@@ -194,12 +208,12 @@ const GenerationForm = () => {
               <div className="flex items-start gap-2">
                 <span className="text-2xl">🎬</span>
                 <div>
-                  <p className="font-bold text-gray-800 mb-1">SORA 2</p>
+                  <p className="font-bold text-gray-800 mb-1">SORA 2 • Видео с аудио</p>
                   <p className="text-sm text-gray-700">
-                    <span className="font-semibold">Без изображения:</span> создаст видео по вашему описанию
+                    <span className="font-semibold">Без изображения:</span> создаст видео с синхронизированным звуком по вашему описанию
                   </p>
                   <p className="text-sm text-gray-700 mt-1">
-                    <span className="font-semibold">С изображением:</span> анимирует загруженное изображение согласно описанию движения
+                    <span className="font-semibold">С изображением:</span> анимирует загруженное изображение со звуком согласно описанию движения
                   </p>
                 </div>
               </div>
@@ -207,12 +221,12 @@ const GenerationForm = () => {
               <div className="flex items-start gap-2">
                 <span className="text-2xl">⚡</span>
                 <div>
-                  <p className="font-bold text-gray-800 mb-1">Veo 3</p>
+                  <p className="font-bold text-gray-800 mb-1">Veo 3 • Видео с аудио</p>
                   <p className="text-sm text-gray-700">
-                    <span className="font-semibold">Без изображения:</span> создаст видео по вашему описанию
+                    <span className="font-semibold">Без изображения:</span> создаст видео с аудио по вашему описанию
                   </p>
                   <p className="text-sm text-gray-700 mt-1">
-                    <span className="font-semibold">С изображением:</span> создаст видео с использованием изображения как референса стиля
+                    <span className="font-semibold">С изображением:</span> создаст видео с аудио, используя изображение как референс стиля
                   </p>
                 </div>
               </div>
@@ -300,10 +314,17 @@ const GenerationForm = () => {
         >
           {isGenerating ? '⏳ Генерация...' : '🎬 Начать генерацию'}
         </button>
-        <p className="text-center text-gray-500 text-sm font-medium mt-3 flex items-center justify-center gap-2">
-          <span>💎</span>
-          <span>При генерации будет списано 2 токена</span>
-        </p>
+        <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200">
+          <p className="text-center text-gray-700 text-base font-semibold flex items-center justify-center gap-2">
+            <span>💎</span>
+            <span>Стоимость генерации: {tokenCost} токенов</span>
+          </p>
+          <p className="text-center text-gray-500 text-sm mt-1">
+            {selectedModel === 'veo'
+              ? 'Veo 3 • 8 секунд видео с аудио'
+              : `SORA 2 • ${duration} секунд видео с аудио`}
+          </p>
+        </div>
       </form>
     </div>
   );

@@ -59,6 +59,7 @@ export async function GET(request: NextRequest) {
             id: true,
             username: true,
             telegramId: true,
+            publicId: true,
           },
         });
 
@@ -73,6 +74,7 @@ export async function GET(request: NextRequest) {
             ? {
                 username: referrer.username || `User${referrer.telegramId}`,
                 telegramId: referrer.telegramId,
+                publicId: referrer.publicId || 'N/A',
               }
             : null,
           newReferrals: stat.newReferrals, // Количество новых рефералов за эту неделю

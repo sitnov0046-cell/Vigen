@@ -14,9 +14,10 @@ export default function Home() {
     photoUrl: 'https://i.pravatar.cc/100?img=3',
     tokens: 42,
     videos: 7,
-    referrals: 3
+    referrals: 3,
+    publicId: 'L123456'
   };
-  const [userInfo, setUserInfo] = useState<{ username?: string; photoUrl?: string; balance?: number; videosCount?: number; referralsCount?: number }>({});
+  const [userInfo, setUserInfo] = useState<{ username?: string; photoUrl?: string; balance?: number; videosCount?: number; referralsCount?: number; publicId?: string }>({});
   const [showForm, setShowForm] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
   const [isContentReady, setIsContentReady] = useState(false);
@@ -59,7 +60,8 @@ export default function Home() {
             ...prev,
             balance: data.balance,
             videosCount: data.videosCount,
-            referralsCount: data.referralsCount
+            referralsCount: data.referralsCount,
+            publicId: data.user?.publicId
           }));
         }
       } catch (error) {
@@ -148,6 +150,11 @@ export default function Home() {
               )}
               <div className="flex flex-col justify-center gap-1">
                 <span className="font-bold text-xl text-gray-800 tracking-wide drop-shadow-sm">@{userInfo.username || mockUser.username}</span>
+                {(userInfo.publicId || mockUser.publicId) && (
+                  <span className="text-gray-500 text-base">Ваш ID:
+                    <span className="ml-2 font-mono font-bold text-purple-600 text-lg">{userInfo.publicId || mockUser.publicId}</span>
+                  </span>
+                )}
                 <span className="text-gray-500 text-base">Токенов:
                   <span className="ml-2 font-bold text-blue-700">{userInfo.balance ?? mockUser.tokens}</span>
                 </span>

@@ -16,7 +16,7 @@ export const VIDEO_TARIFFS: VideoTariff[] = [
     id: 'sora-basic',
     name: 'SORA 2 - Базовый',
     duration: 5,
-    tokens: 2,
+    tokens: 6,
     model: 'sora-2',
     description: '5 секунд видео',
   },
@@ -24,15 +24,16 @@ export const VIDEO_TARIFFS: VideoTariff[] = [
     id: 'sora-standard',
     name: 'SORA 2 - Стандарт',
     duration: 10,
-    tokens: 2,
+    tokens: 9,
     model: 'sora-2',
     description: '10 секунд видео',
+    popular: true,
   },
   {
     id: 'sora-extended',
     name: 'SORA 2 - Расширенный',
     duration: 15,
-    tokens: 2,
+    tokens: 12,
     model: 'sora-2',
     description: '15 секунд видео',
   },
@@ -41,60 +42,86 @@ export const VIDEO_TARIFFS: VideoTariff[] = [
     id: 'veo-basic',
     name: 'Veo 3 - Базовый',
     duration: 8,
-    tokens: 2,
+    tokens: 13,
     model: 'veo-3-fast',
-    description: '8 секунд видео',
+    description: '8 секунд видео с аудио',
   },
 ];
 
-// Пакеты пополнения с бонусом х2 при первой покупке
+// Пакеты пополнения токенов
 export interface TokenPackage {
   id: string;
   name: string;
   price: number; // в рублях
-  tokens: number; // базовое количество токенов
-  tokensWithBonus: number; // с бонусом х2
+  tokens: number; // количество токенов
+  pricePerToken: number; // цена за токен в рублях
   popular?: boolean;
-  discount?: number; // процент скидки
+  discount?: string; // процент экономии
 }
 
 export const TOKEN_PACKAGES: TokenPackage[] = [
   {
-    id: 'starter',
-    name: 'Стартовый',
-    price: 499,
-    tokens: 499,
-    tokensWithBonus: 998,
+    id: 'mini',
+    name: 'Мини',
+    price: 490,
+    tokens: 49,
+    pricePerToken: 10.00,
   },
   {
-    id: 'popular',
-    name: 'Популярный',
-    price: 999,
-    tokens: 999,
-    tokensWithBonus: 1998,
+    id: 'start',
+    name: 'Старт',
+    price: 990,
+    tokens: 100,
+    pricePerToken: 9.90,
+    discount: '-1%',
+  },
+  {
+    id: 'standard',
+    name: 'Стандарт',
+    price: 1990,
+    tokens: 205,
+    pricePerToken: 9.71,
+    discount: '-3%',
     popular: true,
   },
   {
-    id: 'profitable',
-    name: 'Выгодный',
-    price: 1999,
-    tokens: 1999,
-    tokensWithBonus: 3998,
-    discount: 5,
+    id: 'pro',
+    name: 'Про',
+    price: 2990,
+    tokens: 315,
+    pricePerToken: 9.49,
+    discount: '-5%',
   },
   {
-    id: 'premium',
-    name: 'Премиум',
-    price: 3990,
-    tokens: 3990,
-    tokensWithBonus: 7980,
-    discount: 10,
+    id: 'business',
+    name: 'Бизнес',
+    price: 4990,
+    tokens: 537,
+    pricePerToken: 9.29,
+    discount: '-7%',
+  },
+  {
+    id: 'vip',
+    name: 'VIP',
+    price: 9990,
+    tokens: 1112,
+    pricePerToken: 8.98,
+    discount: '-10%',
   },
 ];
 
-// Константы для расчётов
-export const COST_PER_SECOND_SORA2 = 1.25; // себестоимость в рублях за секунду для Sora 2
-export const COST_PER_SECOND_VEO3 = 4.15; // себестоимость в рублях за секунду для Veo 3 Fast
+// Константы для расчётов (себестоимость генерации)
+// Курс: 83₽ за $1
+export const COST_PER_SECOND_SORA2 = 1.25; // $0.015/сек × 83 = 1.245₽/сек
+export const COST_PER_SECOND_VEO3 = 4.15; // $0.40 за 8 сек = $0.05/сек × 83 = 4.15₽/сек
+
+// Стоимость генераций в токенах
+export const TOKEN_COSTS = {
+  'sora-5sec': 6,
+  'sora-10sec': 9,
+  'sora-15sec': 12,
+  'veo-8sec': 13,
+} as const;
 
 // Реферальная система с недельным лидербордом
 export const REFERRAL_LEADERBOARD_PERCENTAGES = {

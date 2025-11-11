@@ -23,6 +23,7 @@ interface ReferralBonus {
 interface LeaderboardEntry {
   rank: number;
   username: string;
+  publicId: string;
   referralCount: number;
   totalEarned: number;
   isCurrentUser: boolean;
@@ -83,6 +84,7 @@ export default function ReferralPage() {
       const formattedLeaderboard = leaderboardData.leaderboard.map((entry: any) => ({
         rank: entry.position,
         username: entry.referrer?.username || 'Unknown',
+        publicId: entry.referrer?.publicId || 'N/A',
         referralCount: entry.newReferrals,
         totalEarned: entry.totalSpending,
         isCurrentUser: entry.referrer?.telegramId === String(userId),
@@ -181,6 +183,11 @@ export default function ReferralPage() {
         </span>
       </button>
     </div>
+    <div className="mt-3">
+      <p className="text-white/70 text-xs">
+        ℹ️ Минимальная сумма для вывода — 1000₽
+      </p>
+    </div>
   </div>
 
   {/* Нижний блок: реферальная ссылка и призыв */}
@@ -253,7 +260,7 @@ export default function ReferralPage() {
             `}</style>
             {sortedLeaderboard.slice(0, 100).map((entry, i) => (
               <div
-                key={entry.username}
+                key={entry.publicId}
                 className={`flex items-center justify-between p-4 rounded-xl transition-all ${
                   entry.isCurrentUser
                     ? 'bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-300'
@@ -267,8 +274,8 @@ export default function ReferralPage() {
                     {getRankEmoji(i + 1)}
                   </div>
                   <div>
-                    <p className={`font-semibold ${entry.isCurrentUser ? 'text-purple-900' : 'text-gray-800'}`}>
-                      {entry.username}
+                    <p className={`font-semibold font-mono ${entry.isCurrentUser ? 'text-purple-900' : 'text-gray-800'}`}>
+                      {entry.publicId}
                     </p>
                     <p className="text-sm text-gray-600">
                       {entry.referralCount} рефералов • {entry.totalEarned}₽

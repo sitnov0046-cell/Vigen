@@ -1,62 +1,81 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { BottomNavigation } from '@/components/BottomNavigation';
-import { TOKENS_PER_VIDEO } from '@/lib/constants';
+import { TOKEN_PACKAGES } from '@/config/video-tariffs';
 
 interface PricingPlan {
   id: string;
   name: string;
   emoji: string;
-  generations: number;
   tokens: number;
-  priceWithDiscount: number;
-  priceWithoutDiscount: number;
+  price: number;
+  pricePerToken: number;
   popular?: boolean;
+  discount?: string;
   color: string;
 }
 
 const pricingPlans: PricingPlan[] = [
   {
-    id: 'amateur',
-    name: 'Любительский',
-    emoji: '🎬',
-    generations: 10,
-    tokens: 20,
-    priceWithDiscount: 499,
-    priceWithoutDiscount: 690,
-    color: 'from-blue-500 to-cyan-500'
+    id: 'mini',
+    name: 'Мини',
+    emoji: '🌱',
+    tokens: 49,
+    price: 490,
+    pricePerToken: 10.00,
+    color: 'from-blue-400 to-cyan-500'
   },
   {
-    id: 'creative',
-    name: 'Творческий',
-    emoji: '🎨',
-    generations: 25,
-    tokens: 50,
-    priceWithDiscount: 999,
-    priceWithoutDiscount: 1490,
+    id: 'start',
+    name: 'Старт',
+    emoji: '🎯',
+    tokens: 100,
+    price: 990,
+    pricePerToken: 9.90,
+    discount: '-1%',
+    color: 'from-indigo-500 to-purple-500'
+  },
+  {
+    id: 'standard',
+    name: 'Стандарт',
+    emoji: '⭐',
+    tokens: 205,
+    price: 1990,
+    pricePerToken: 9.71,
+    discount: '-3%',
     popular: true,
     color: 'from-purple-500 to-pink-500'
   },
   {
-    id: 'advanced',
-    name: 'Продвинутый',
+    id: 'pro',
+    name: 'Про',
     emoji: '🚀',
-    generations: 60,
-    tokens: 120,
-    priceWithDiscount: 1990,
-    priceWithoutDiscount: 2990,
+    tokens: 315,
+    price: 2990,
+    pricePerToken: 9.49,
+    discount: '-5%',
+    color: 'from-pink-500 to-rose-500'
+  },
+  {
+    id: 'business',
+    name: 'Бизнес',
+    emoji: '💼',
+    tokens: 537,
+    price: 4990,
+    pricePerToken: 9.29,
+    discount: '-7%',
     color: 'from-orange-500 to-red-500'
   },
   {
-    id: 'professional',
-    name: 'Профессиональный',
+    id: 'vip',
+    name: 'VIP',
     emoji: '👑',
-    generations: 120,
-    tokens: 240,
-    priceWithDiscount: 3990,
-    priceWithoutDiscount: 5586,
+    tokens: 1112,
+    price: 9990,
+    pricePerToken: 8.98,
+    discount: '-10%',
     color: 'from-yellow-500 to-amber-500'
   }
 ];
@@ -64,15 +83,77 @@ const pricingPlans: PricingPlan[] = [
 export default function PricingPage() {
   const { webApp } = useTelegramWebApp();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
 
-  const calculateDiscount = (withDiscount: number, withoutDiscount: number) => {
-    return Math.round(((withoutDiscount - withDiscount) / withoutDiscount) * 100);
+  useEffect(() => {
+    // Проверяем, новый ли пользователь (зарегистрирован менее 24 часов назад)
+    const checkNewUser = async () => {
+      const userId = webApp?.initDataUnsafe?.user?.id || 123456789;
+
+      // ВРЕМЕННО: Режим тестирования - всегда показываем как нового пользователя
+      // TODO: Убрать после тестирования
+      const TEST_MODE = true;
+
+      if (TEST_MODE) {
+        setIsNewUser(true);
+        // Тестовый таймер на 2 часа
+        setTimeLeft(2 * 60 * 60);
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/users?telegramId=${userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          const registeredAt = new Date(data.user.createdAt);
+          const now = new Date();
+          const hoursSinceRegistration = (now.getTime() - registeredAt.getTime()) / (1000 * 60 * 60);
+
+          if (hoursSinceRegistration < 4) {
+            setIsNewUser(true);
+            // Вычисляем оставшееся время в секундах (4 часа)
+            const secondsLeft = Math.floor((4 * 60 * 60) - (hoursSinceRegistration * 60 * 60));
+            setTimeLeft(secondsLeft);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking user status:', error);
+      }
+    };
+
+    checkNewUser();
+  }, [webApp]);
+
+  // Таймер обратного отсчёта
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            setIsNewUser(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
   const handlePayment = (plan: PricingPlan) => {
     setSelectedPlan(plan.id);
-    // Здесь будет интеграция с платёжной системой
-    alert(`Оплата тарифа "${plan.name}" - ${plan.priceWithDiscount}₽\n\nИнтеграция с платёжной системой будет добавлена скоро!`);
+    const finalPrice = isNewUser ? Math.round(plan.price * 0.8) : plan.price;
+    const discount = isNewUser ? ' (скидка 20%)' : '';
+    alert(`Оплата тарифа "${plan.name}" - ${finalPrice}₽${discount}\n\nВы получите ${plan.tokens} токенов\n\nИнтеграция с платёжной системой будет добавлена скоро!`);
     setSelectedPlan(null);
   };
 
@@ -82,20 +163,32 @@ export default function PricingPage() {
         {/* Заголовок */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 mb-3">Выберите тариф</h1>
-          <p className="text-gray-600 text-lg">Получите токены для создания потрясающих видео</p>
-          <div className="mt-4 inline-flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-md">
-            <span className="text-2xl">💎</span>
-            <span className="font-semibold text-gray-700">
-              1 генерация = {TOKENS_PER_VIDEO} токена
-            </span>
-          </div>
+          <p className="text-gray-600 text-lg">Получите токены для создания потрясающих видео с ИИ</p>
+
+          {/* Баннер скидки для новых пользователей */}
+          {isNewUser && (
+            <div className="mt-6 max-w-2xl mx-auto bg-gradient-to-r from-red-500 via-pink-500 to-purple-600 rounded-2xl p-6 shadow-2xl animate-pulse">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <span className="text-3xl">🎉</span>
+                <h3 className="text-2xl font-bold text-white">Специальное предложение!</h3>
+                <span className="text-3xl">🎁</span>
+              </div>
+              <p className="text-white text-lg font-semibold mb-4">
+                Скидка 20% на первое пополнение для новых пользователей!
+              </p>
+              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border-2 border-white/40">
+                <p className="text-white text-sm mb-2">⏰ Предложение действительно ещё:</p>
+                <div className="text-4xl font-mono font-bold text-yellow-300 tracking-wider">
+                  {formatTime(timeLeft)}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Карточки тарифов */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {pricingPlans.map((plan) => {
-            const discount = calculateDiscount(plan.priceWithDiscount, plan.priceWithoutDiscount);
-
             return (
               <div
                 key={plan.id}
@@ -113,6 +206,15 @@ export default function PricingPage() {
                   </div>
                 )}
 
+                {/* Бейдж скидки */}
+                {plan.discount && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                      {plan.discount}
+                    </div>
+                  </div>
+                )}
+
                 {/* Цветной градиент сверху */}
                 <div className={`h-32 bg-gradient-to-r ${plan.color} relative`}>
                   <div className="absolute inset-0 bg-black opacity-10"></div>
@@ -126,47 +228,75 @@ export default function PricingPage() {
                   {/* Название тарифа */}
                   <h3 className="text-3xl font-bold text-gray-800 mb-2">{plan.name}</h3>
 
-                  {/* Количество генераций */}
+                  {/* Количество токенов */}
                   <div className="mb-6">
-                    <div className="flex items-baseline gap-2 mb-2">
+                    <div className="flex items-baseline gap-2">
                       <span className="text-5xl font-extrabold text-gray-900">
-                        {plan.generations}
+                        {plan.tokens}
                       </span>
-                      <span className="text-xl text-gray-600">генераций</span>
+                      <span className="text-xl text-gray-600">токенов</span>
                     </div>
-                    <p className="text-gray-500 text-sm">
-                      {plan.tokens} токенов
-                    </p>
                   </div>
 
                   {/* Цены */}
                   <div className="mb-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-5">
-                    {/* Цена со скидкой */}
-                    <div className="flex items-baseline gap-2 mb-2">
-                      <span className="text-4xl font-extrabold text-gray-900">
-                        {plan.priceWithDiscount}
-                      </span>
-                      <span className="text-2xl text-gray-600">₽</span>
-                    </div>
-
-                    {/* Старая цена и скидка */}
-                    <div className="flex items-center gap-3">
-                      <span className="text-lg text-gray-400 line-through">
-                        {plan.priceWithoutDiscount}₽
-                      </span>
-                      <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold">
-                        -{discount}%
+                    {/* Основная цена */}
+                    {isNewUser ? (
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-2xl text-gray-400 line-through">
+                            {plan.price}₽
+                          </span>
+                          <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                            -20%
+                          </div>
+                          <div className="flex items-center gap-1 bg-orange-50 rounded-lg px-3 py-1.5 ml-auto">
+                            <span className="text-sm text-orange-600">⏰</span>
+                            <span className="text-sm font-mono font-bold text-orange-600">
+                              {formatTime(timeLeft)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-baseline gap-2 mb-3">
+                          <span className="text-4xl font-extrabold text-green-600">
+                            {Math.round(plan.price * 0.8)}
+                          </span>
+                          <span className="text-2xl text-green-600">₽</span>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="flex items-baseline gap-2 mb-3">
+                        <span className="text-4xl font-extrabold text-gray-900">
+                          {plan.price}
+                        </span>
+                        <span className="text-2xl text-gray-600">₽</span>
+                      </div>
+                    )}
 
-                    {/* Цена за генерацию */}
-                    <div className="mt-3 pt-3 border-t border-gray-200">
+                    {/* Цена за токен */}
+                    <div className="mb-3 pb-3 border-b border-gray-200">
                       <p className="text-sm text-gray-600">
                         <span className="font-semibold text-gray-800">
-                          {Math.round(plan.priceWithDiscount / plan.generations)}₽
+                          {plan.pricePerToken.toFixed(2)}₽
                         </span>
-                        {' '}за генерацию
+                        {' '}за токен
                       </p>
+                    </div>
+
+                    {/* Примеры использования */}
+                    <div className="space-y-1 text-xs text-gray-600">
+                      <div className="flex justify-between">
+                        <span>SORA 5 сек (6 т)</span>
+                        <span className="font-semibold">{Math.floor(plan.tokens / 6)} видео</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>SORA 10 сек (9 т)</span>
+                        <span className="font-semibold">{Math.floor(plan.tokens / 9)} видео</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Veo 3 (13 т)</span>
+                        <span className="font-semibold">{Math.floor(plan.tokens / 13)} видео</span>
+                      </div>
                     </div>
                   </div>
 
@@ -200,7 +330,7 @@ export default function PricingPage() {
                     ) : (
                       <span className="flex items-center justify-center gap-2">
                         <span>💳</span>
-                        <span>Оплатить {plan.priceWithDiscount}₽</span>
+                        <span>Купить за {isNewUser ? Math.round(plan.price * 0.8) : plan.price}₽</span>
                       </span>
                     )}
                   </button>

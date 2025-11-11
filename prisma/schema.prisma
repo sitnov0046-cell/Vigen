@@ -12,6 +12,7 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   telegramId String  @unique
+  publicId  String?  @unique // Публичный ID для отображения (например, "U123456")
   username  String?
   balance   Int      @default(0)
   firstDepositMade Boolean @default(false) // Флаг первого пополнения для бонуса х2
