@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
 
     // Проверить, первое ли это пополнение
     const isFirstDeposit = !user.firstDepositMade;
-    const tokensToAdd = isFirstDeposit ? tokenPackage.tokensWithBonus : tokenPackage.tokens;
-    const bonusTokens = isFirstDeposit ? tokenPackage.tokens : 0;
+    const bonusTokens = isFirstDeposit ? tokenPackage.tokens : 0; // х2 бонус при первом пополнении
+    const tokensToAdd = tokenPackage.tokens + bonusTokens;
 
     // Начислить токены пользователю
     const updatedUser = await prisma.user.update({
