@@ -169,7 +169,7 @@ export async function GET(request: NextRequest) {
     // Подготовить пакеты с учётом бонуса х2
     const packagesWithBonusInfo = TOKEN_PACKAGES.map(pkg => ({
       ...pkg,
-      tokensYouGet: user.firstDepositMade ? pkg.tokens : pkg.tokensWithBonus,
+      tokensYouGet: user.firstDepositMade ? pkg.tokens : (pkg.tokens * 2), // х2 бонус при первом пополнении
       hasBonus: !user.firstDepositMade,
     }));
 
