@@ -130,6 +130,11 @@ export default function Home() {
               Создавайте потрясающие видео с помощью ИИ<br />и делитесь ими с друзьями
             </p>
 
+            {/* Демо-видео */}
+            <div className="my-8 sm:my-12">
+              <DemoVideo src="/videos/Видео 1.mp4" />
+            </div>
+
             {/* Блок информации о пользователе */}
             <div className="relative flex flex-col items-center gap-4 sm:gap-5 bg-white/90 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 my-3 sm:my-5 border-2 sm:border-4 border-blue-400 bg-clip-padding animate-fadeIn hover:shadow-2xl hover:border-blue-500 transition-all duration-300">
               <div className="flex flex-col items-center gap-3 w-full">
@@ -192,11 +197,6 @@ export default function Home() {
               <GenerationForm />
             </div>
           )}
-
-          {/* Демо-видео */}
-          <div className="my-8 sm:my-12">
-            <DemoVideo src="/videos/Видео 1.mp4" />
-          </div>
 
           {/* Новости */}
           <div className="my-12 sm:my-16">
