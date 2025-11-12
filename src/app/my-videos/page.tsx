@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
+import { BottomNavigation } from '@/components/BottomNavigation';
 
 interface Video {
   id: string;
@@ -289,6 +290,8 @@ export default function MyVideosPage() {
           ))}
         </div>
       </div>
+
+      <BottomNavigation />
     </div>
   );
 }
