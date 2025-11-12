@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { TOKEN_PACKAGES } from '@/config/video-tariffs';
+import { StarryBackground } from '@/components/StarryBackground';
 
 interface PricingPlan {
   id: string;
@@ -150,12 +151,13 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
+    <div className="min-h-screen pb-20">
+      <StarryBackground />
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-5xl">
         {/* Заголовок */}
         <div className="text-center mb-4 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-3">Выберите тариф</h1>
-          <p className="text-gray-600 text-sm sm:text-lg">Получите токены для создания потрясающих видео с ИИ</p>
+          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">Выберите тариф</h1>
+          <p className="text-white text-sm sm:text-lg">Получите токены для создания потрясающих видео с ИИ</p>
 
           {/* Баннер скидки для новых пользователей */}
           {isNewUser && (

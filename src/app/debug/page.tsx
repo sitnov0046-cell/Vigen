@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
+import { StarryBackground } from '@/components/StarryBackground';
 
 export default function DebugPage() {
   const { webApp } = useTelegramWebApp();
@@ -73,7 +74,8 @@ export default function DebugPage() {
   }, [webApp]);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-green-400 p-6 font-mono text-sm">
+    <div className="min-h-screen text-green-400 p-6 font-mono text-sm relative">
+      <StarryBackground />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-6 text-white">
           🔍 Отладочная информация Telegram WebApp

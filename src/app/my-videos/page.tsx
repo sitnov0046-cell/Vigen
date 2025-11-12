@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
+import { StarryBackground } from '@/components/StarryBackground';
 
 interface Video {
   id: string;
@@ -163,7 +164,8 @@ export default function MyVideosPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% flex flex-col items-center justify-center pb-24">
+      <div className="min-h-screen flex flex-col items-center justify-center pb-24">
+        <StarryBackground />
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         <p className="mt-4 text-gray-600">Загрузка видео...</p>
       </div>
@@ -172,12 +174,13 @@ export default function MyVideosPage() {
 
   if (!videos.length) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% flex flex-col items-center justify-center pb-24">
+      <div className="min-h-screen flex flex-col items-center justify-center pb-24">
+        <StarryBackground />
         <div className="text-center">
           <div className="text-6xl mb-4">🎬</div>
-          <p className="text-xl mb-4 text-gray-700">У вас пока нет сгенерированных видео</p>
+          <p className="text-xl mb-4 text-white font-semibold">У вас пока нет сгенерированных видео</p>
           <Link
-            href="/"
+            href="/?openForm=true"
             className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:scale-105 transition-transform shadow-lg"
           >
             Создать первое видео
@@ -188,7 +191,8 @@ export default function MyVideosPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
+    <div className="min-h-screen pb-20">
+      <StarryBackground />
       <div className="container mx-auto px-3 py-4 max-w-6xl">
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">🎬 Мои видео</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">

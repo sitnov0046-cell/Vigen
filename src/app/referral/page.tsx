@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
+import { StarryBackground } from '@/components/StarryBackground';
 
 interface Referral {
   id: number;
@@ -142,7 +143,8 @@ export default function ReferralPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
+        <StarryBackground />
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Загрузка...</p>
@@ -152,39 +154,43 @@ export default function ReferralPage() {
   }
 
   return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
+      <div className="min-h-screen pb-20">
+      <StarryBackground />
       <div className="container mx-auto px-3 py-4 max-w-4xl">
         {/* Заголовок */}
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-8">💰 Заработать</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-8">💰 Заработать</h1>
 
   {/* Карточка с общей статистикой */}
   {/* Верхний блок: заработано и кнопки */}
   <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl sm:rounded-2xl p-4 sm:p-8 mb-3 sm:mb-4 text-white shadow-lg">
-    <p className="text-green-100 text-xs sm:text-sm mb-1 sm:mb-2">Всего заработано</p>
+    <p className="text-white text-sm sm:text-base font-semibold mb-1 sm:mb-2">Всего заработано</p>
     <div className="mb-3 sm:mb-4">
       <h2 className="text-3xl sm:text-5xl font-bold">{totalEarned}₽</h2>
     </div>
     <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 mb-3 sm:mb-4">
-      <p className="text-white/80 text-xs sm:text-sm mb-1">Заработано сегодня</p>
+      <p className="text-white text-sm sm:text-base font-semibold mb-1">Заработано сегодня</p>
       <p className="text-white font-bold text-xl sm:text-2xl">+{earnedToday}₽</p>
     </div>
     <div className="flex flex-col gap-2 sm:gap-3 mt-3 sm:mt-4">
-      <button className="relative px-6 sm:px-8 py-4 sm:py-5 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-lg sm:text-xl overflow-hidden group">
+      <button className="relative px-4 sm:px-6 py-3 sm:py-3.5 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-base sm:text-lg overflow-hidden group">
         <span className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-400 via-pink-400 to-emerald-400 transition-all"></span>
         <span className="relative z-10 flex items-center gap-2">
           🔄 Обменять рубли на токены
         </span>
       </button>
-      <button className="relative px-6 sm:px-8 py-4 sm:py-5 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-lg sm:text-xl overflow-hidden group">
+      <button className="relative px-4 sm:px-6 py-3 sm:py-3.5 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-base sm:text-lg overflow-hidden group">
         <span className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 via-pink-400 to-indigo-400 transition-all"></span>
         <span className="relative z-10 flex items-center gap-2">
-          💸 Вывести рубли
+          💸 Вывести рубли на карту
         </span>
       </button>
     </div>
-    <div className="mt-2 sm:mt-3">
+    <div className="mt-2 sm:mt-3 space-y-1">
       <p className="text-white/70 text-xs">
         ℹ️ Минимальная сумма для вывода — 1000₽
+      </p>
+      <p className="text-white/70 text-xs">
+        ℹ️ Минимальная сумма для конвертации в токены — 199₽
       </p>
     </div>
   </div>
@@ -192,7 +198,7 @@ export default function ReferralPage() {
   {/* Нижний блок: реферальная ссылка и призыв */}
   <div className="bg-white rounded-xl sm:rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6 shadow flex flex-col items-start">
     <p className="text-gray-700 text-sm sm:text-base font-semibold mb-2">Ваша реферальная ссылка</p>
-    <div className="flex flex-col sm:flex-row w-full gap-2 mb-2 sm:mb-3">
+    <div className="flex flex-row w-full gap-2 mb-2 sm:mb-3">
       <input
         type="text"
         value={referralLink}
@@ -201,7 +207,7 @@ export default function ReferralPage() {
       />
       <button
         onClick={copyReferralLink}
-        className="px-6 sm:px-8 py-4 sm:py-5 bg-blue-500 text-white rounded-lg sm:rounded-xl font-bold active:bg-blue-600 transition-all whitespace-nowrap text-lg sm:text-xl shadow-md"
+        className="px-4 sm:px-5 py-2 sm:py-3 bg-blue-500 text-white rounded-lg sm:rounded-xl font-bold active:bg-blue-600 transition-all whitespace-nowrap text-sm sm:text-base shadow-md flex-shrink-0"
       >
         {copiedLink ? '✓ Скопировано' : '📋 Копировать'}
       </button>
@@ -225,7 +231,7 @@ export default function ReferralPage() {
               <p>🥇 <span className="font-semibold">1 место (15%)</span> — минимум 10 новых рефералов/неделю</p>
               <p>🥈 <span className="font-semibold">2 место (13%)</span> — минимум 7 новых рефералов/неделю</p>
               <p>🥉 <span className="font-semibold">3 место (11%)</span> — минимум 5 новых рефералов/неделю</p>
-              <p>📊 <span className="font-semibold">Остальные (10%)</span> — от 1 реферала за всё время</p>
+              <p>📊 <span className="font-semibold">Стандартная ставка — 10%</span></p>
             </div>
             <p className="text-xs text-gray-600 italic">
               Процент начисляется от всех трат рефералов. Каждую неделю счётчик обнуляется — все начинают заново!

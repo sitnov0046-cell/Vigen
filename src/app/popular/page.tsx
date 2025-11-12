@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { FEATURED_MIN_BID, FEATURED_DURATION_HOURS } from '@/lib/constants';
+import { StarryBackground } from '@/components/StarryBackground';
 
 interface Video {
   id: number;
@@ -87,7 +88,8 @@ export default function PopularVideosPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% flex items-center justify-center pb-24">
+      <div className="min-h-screen flex items-center justify-center pb-24">
+        <StarryBackground />
         <div className="text-center">
           <div className="text-6xl mb-4">⏳</div>
           <p className="text-gray-600">Загрузка...</p>
@@ -97,12 +99,13 @@ export default function PopularVideosPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
+    <div className="min-h-screen pb-20">
+      <StarryBackground />
       <div className="container mx-auto px-3 py-4 max-w-6xl">
         {/* Заголовок */}
         <div className="text-center mb-4 sm:mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-3">🔥 Популярные видео</h1>
-          <p className="text-gray-600 text-sm sm:text-lg">Голосуй за лучшие видео и размести своё на главной!</p>
+          <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">🔥 Популярные видео</h1>
+          <p className="text-white text-sm sm:text-lg">Голосуй за лучшие видео и размести своё на главной!</p>
         </div>
 
         {/* Видео дня */}
@@ -242,9 +245,9 @@ export default function PopularVideosPage() {
         </div>
 
         {/* Инструкция */}
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
-          <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">📋 Как это работает?</h3>
-          <div className="space-y-2 sm:space-y-3 text-sm sm:text-base text-gray-700">
+        <div className="bg-white rounded-lg sm:rounded-xl shadow-md sm:shadow-lg p-3 sm:p-5 mb-4 sm:mb-6">
+          <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-2 sm:mb-3">📋 Как это работает?</h3>
+          <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm text-gray-700 leading-relaxed">
             <p>• Начальная ставка для видео дня: <strong>{FEATURED_MIN_BID} токена</strong></p>
             <p>• Видео находится на главной <strong>{FEATURED_DURATION_HOURS} часа</strong></p>
             <p>• Другие могут перебить ставку, поставив на <strong>1 токен больше</strong></p>

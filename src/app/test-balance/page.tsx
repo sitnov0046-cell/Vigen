@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { StarryBackground } from '@/components/StarryBackground';
 
 export default function TestBalancePage() {
   const [result, setResult] = useState<string>('');
@@ -54,7 +55,8 @@ export default function TestBalancePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen p-8 relative">
+      <StarryBackground />
       <div className="max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-6">API Test Page</h1>
 

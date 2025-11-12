@@ -7,11 +7,11 @@ interface DemoVideoProps {
 export function DemoVideo({ src, poster, className = '' }: DemoVideoProps) {
   return (
     <div className={`relative w-full aspect-video rounded-lg overflow-hidden shadow-xl ${className}`}>
-      <video 
+      <video
         className="w-full h-full object-cover"
-        autoPlay 
-        loop 
-        muted 
+        autoPlay
+        loop
+        muted
         playsInline
         poster={poster}
       >

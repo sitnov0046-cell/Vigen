@@ -1,13 +1,16 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { DemoVideo } from '@/components/DemoVideo';
 import GenerationForm from '@/components/GenerationForm';
 import { SplashScreen } from '@/components/SplashScreen';
+import { StarryBackground } from '@/components/StarryBackground';
 
 export default function Home() {
+  const searchParams = useSearchParams();
   const [userInfo, setUserInfo] = useState<{ username?: string; photoUrl?: string; balance?: number; videosCount?: number; referralsCount?: number; publicId?: string }>({});
   const [showForm, setShowForm] = useState(false);
   const [showSplash, setShowSplash] = useState(false);
@@ -15,20 +18,35 @@ export default function Home() {
   const { webApp } = useTelegramWebApp();
   const formRef = useRef<HTMLDivElement>(null);
 
+  // Проверяем query параметр для открытия формы
+  useEffect(() => {
+    const openForm = searchParams.get('openForm');
+    if (openForm === 'true') {
+      setShowForm(true);
+      // Небольшая задержка для прокрутки после рендера
+      setTimeout(() => {
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 300);
+    }
+  }, [searchParams]);
+
   useEffect(() => {
     const fetchUserInfo = async () => {
+      // Если нет Telegram WebApp (локальный предпросмотр), показываем моковые данные
       if (!webApp?.initDataUnsafe?.user?.id) {
+        setUserInfo({
+          username: 'demo_user',
+          photoUrl: undefined,
+          balance: 0,
+          videosCount: 0,
+          referralsCount: 0,
+          publicId: 'L000000'
+        });
         return;
       }
 
       const user = webApp.initDataUnsafe.user;
       const telegramId = user.id;
-
-      setUserInfo((prev) => ({
-        ...prev,
-        username: user.username,
-        photoUrl: (user as any).photo_url || undefined
-      }));
 
       try {
         // Используем endpoint register, который автоматически создаёт пользователя если его нет
@@ -47,16 +65,27 @@ export default function Home() {
 
         if (registerRes.ok) {
           const data = await registerRes.json();
-          setUserInfo((prev) => ({
-            ...prev,
+          // Устанавливаем все данные одновременно, чтобы избежать мигания
+          setUserInfo({
+            username: user.username,
+            photoUrl: (user as any).photo_url || undefined,
             balance: data.balance,
             videosCount: data.videosCount,
             referralsCount: data.referralsCount,
             publicId: data.user?.publicId
-          }));
+          });
         }
       } catch (error) {
         console.error('Failed to load user stats:', error);
+        // Если ошибка, показываем базовую информацию из Telegram + моковые данные для предпросмотра
+        setUserInfo({
+          username: user.username,
+          photoUrl: (user as any).photo_url || undefined,
+          balance: 0,
+          videosCount: 0,
+          referralsCount: 0,
+          publicId: 'L000000' // Моковый ID для предпросмотра при недоступности БД
+        });
       }
     };
     fetchUserInfo();
@@ -106,23 +135,24 @@ export default function Home() {
   return (
     <>
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
+      <StarryBackground />
 
-      <main className={`min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% flex items-center justify-center py-6 sm:py-12 pb-20 sm:pb-24 transition-opacity duration-500 ${
+      <main className={`min-h-screen flex items-center justify-center py-6 sm:py-12 pb-20 sm:pb-24 transition-opacity duration-500 ${
         isContentReady ? 'opacity-100' : 'opacity-0'
       }`}>
         <div className="container mx-auto px-3 sm:px-5 max-w-4xl">
           {/* Блок с информацией о пользователе */}
           {/* Заголовок */}
           <div className="text-center mb-4 sm:mb-8">
-            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-3">
+            <h1 className="text-2xl sm:text-4xl font-bold text-white mb-2 sm:mb-3 drop-shadow-lg">
               👑 Генератор видео - LIKS 👑
             </h1>
-            <p className="text-gray-600 text-sm sm:text-lg mb-4 sm:mb-6">
+            <p className="text-white text-sm sm:text-lg mb-4 sm:mb-6 drop-shadow-md">
               Создавайте потрясающие видео с помощью ИИ<br />и делитесь ими с друзьями
             </p>
 
             {/* Блок информации о пользователе */}
-            <div className="relative flex flex-col items-center gap-2 bg-white/90 rounded-xl shadow-lg p-3 my-2 border border-blue-300 animate-fadeIn transition-all duration-300">
+            <div className="relative flex flex-col items-center gap-2 bg-white/70 rounded-xl shadow-lg p-3 my-2 border border-blue-300 animate-fadeIn transition-all duration-300">
               <div className="flex items-center justify-center gap-3 w-full">
                 {userInfo.photoUrl ? (
                   <img src={userInfo.photoUrl} alt="avatar" className="w-14 h-14 rounded-full border-2 border-white shadow object-cover" />
@@ -160,7 +190,7 @@ export default function Home() {
             {/* Демо-видео */}
             <div className="my-6 sm:my-8">
               <DemoVideo src="/videos/Видео 1.mp4" />
-              <p className="text-center text-gray-500 text-xs sm:text-sm mt-2">
+              <p className="text-center text-white text-xs sm:text-sm mt-2 drop-shadow-md">
                 Пример видео, сгенерированного нейросетью
               </p>
             </div>
@@ -177,7 +207,7 @@ export default function Home() {
 
               <Link
                 href="/instructions"
-                className="flex-1 text-lg sm:text-2xl py-4 sm:py-5 px-6 sm:px-8 rounded-lg sm:rounded-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-white active:scale-95 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                className="flex-1 text-lg sm:text-2xl py-4 sm:py-5 px-6 sm:px-8 rounded-lg sm:rounded-xl font-bold bg-blue-600 text-white active:scale-95 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
               >
                 <span>📖</span>
                 <span>Инструкция</span>
@@ -194,7 +224,7 @@ export default function Home() {
 
           {/* Новости */}
           <div className="my-12 sm:my-16">
-            <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">📰 Новости и обновления</h2>
+            <h2 className="text-lg sm:text-2xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg">📰 Новости и обновления</h2>
             <div className="max-h-72 overflow-y-auto flex flex-col gap-3 sm:gap-4 pr-1 sm:pr-2 custom-scrollbar-news">
               {/* Новость 1: Появление реферальной ссылки (NEW) */}
               <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-3 sm:p-4 border-l-2 sm:border-l-4 border-blue-400 flex flex-col">
