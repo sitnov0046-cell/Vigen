@@ -158,27 +158,27 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-24">
-      <div className="container mx-auto px-8 py-8 max-w-4xl">
+    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-4xl">
         {/* Заголовок */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-3">Выберите тариф</h1>
-          <p className="text-gray-600 text-lg">Получите токены для создания потрясающих видео с ИИ</p>
+        <div className="text-center mb-4 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-3">Выберите тариф</h1>
+          <p className="text-gray-600 text-sm sm:text-lg">Получите токены для создания потрясающих видео с ИИ</p>
 
           {/* Баннер скидки для новых пользователей */}
           {isNewUser && (
-            <div className="mt-6 max-w-2xl mx-auto bg-gradient-to-r from-red-500 via-pink-500 to-purple-600 rounded-2xl p-6 shadow-2xl animate-pulse">
-              <div className="flex items-center justify-center gap-3 mb-3">
-                <span className="text-3xl">🎉</span>
-                <h3 className="text-2xl font-bold text-white">Специальное предложение!</h3>
-                <span className="text-3xl">🎁</span>
+            <div className="mt-4 sm:mt-6 max-w-2xl mx-auto bg-gradient-to-r from-red-500 via-pink-500 to-purple-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl animate-pulse">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <span className="text-xl sm:text-3xl">🎉</span>
+                <h3 className="text-lg sm:text-2xl font-bold text-white">Специальное предложение!</h3>
+                <span className="text-xl sm:text-3xl">🎁</span>
               </div>
-              <p className="text-white text-lg font-semibold mb-4">
+              <p className="text-white text-sm sm:text-lg font-semibold mb-3 sm:mb-4">
                 Скидка 20% на первое пополнение для новых пользователей!
               </p>
-              <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border-2 border-white/40">
-                <p className="text-white text-sm mb-2">⏰ Предложение действительно ещё:</p>
-                <div className="text-4xl font-mono font-bold text-yellow-300 tracking-wider">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 border-2 border-white/40">
+                <p className="text-white text-xs sm:text-sm mb-2">⏰ Предложение действительно ещё:</p>
+                <div className="text-2xl sm:text-4xl font-mono font-bold text-yellow-300 tracking-wider">
                   {formatTime(timeLeft)}
                 </div>
               </div>
@@ -187,19 +187,19 @@ export default function PricingPage() {
         </div>
 
         {/* Карточки тарифов */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-8">
           {pricingPlans.map((plan) => {
             return (
               <div
                 key={plan.id}
-                className={`relative bg-white rounded-3xl shadow-xl overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
-                  plan.popular ? 'ring-4 ring-purple-500 ring-opacity-50' : ''
+                className={`relative bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden ${
+                  plan.popular ? 'ring-2 sm:ring-4 ring-purple-500 ring-opacity-50' : ''
                 }`}
               >
                 {/* Бейдж "Популярный" */}
                 {plan.popular && (
-                  <div className="absolute top-4 right-4 z-10">
-                    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-1">
+                  <div className="absolute top-2 sm:top-4 right-2 sm:right-4 z-10">
+                    <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg flex items-center gap-1">
                       <span>⭐</span>
                       <span>Популярный</span>
                     </div>
@@ -208,74 +208,74 @@ export default function PricingPage() {
 
                 {/* Бейдж скидки */}
                 {plan.discount && (
-                  <div className="absolute top-4 left-4 z-10">
-                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                  <div className="absolute top-2 sm:top-4 left-2 sm:left-4 z-10">
+                    <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                       {plan.discount}
                     </div>
                   </div>
                 )}
 
                 {/* Цветной градиент сверху */}
-                <div className={`h-32 bg-gradient-to-r ${plan.color} relative`}>
+                <div className={`h-24 sm:h-32 bg-gradient-to-r ${plan.color} relative`}>
                   <div className="absolute inset-0 bg-black opacity-10"></div>
                   <div className="relative h-full flex items-center justify-center">
-                    <span className="text-7xl filter drop-shadow-lg">{plan.emoji}</span>
+                    <span className="text-5xl sm:text-7xl filter drop-shadow-lg">{plan.emoji}</span>
                   </div>
                 </div>
 
                 {/* Контент карточки */}
-                <div className="p-8">
+                <div className="p-4 sm:p-8">
                   {/* Название тарифа */}
-                  <h3 className="text-3xl font-bold text-gray-800 mb-2">{plan.name}</h3>
+                  <h3 className="text-xl sm:text-3xl font-bold text-gray-800 mb-2">{plan.name}</h3>
 
                   {/* Количество токенов */}
-                  <div className="mb-6">
+                  <div className="mb-4 sm:mb-6">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-5xl font-extrabold text-gray-900">
+                      <span className="text-3xl sm:text-5xl font-extrabold text-gray-900">
                         {plan.tokens}
                       </span>
-                      <span className="text-xl text-gray-600">токенов</span>
+                      <span className="text-base sm:text-xl text-gray-600">токенов</span>
                     </div>
                   </div>
 
                   {/* Цены */}
-                  <div className="mb-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl p-5">
+                  <div className="mb-4 sm:mb-6 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl sm:rounded-2xl p-3 sm:p-5">
                     {/* Основная цена */}
                     {isNewUser ? (
                       <div>
                         <div className="flex items-center gap-2 mb-2">
-                          <span className="text-2xl text-gray-400 line-through">
+                          <span className="text-lg sm:text-2xl text-gray-400 line-through">
                             {plan.price}₽
                           </span>
                           <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-full text-xs font-bold">
                             -20%
                           </div>
-                          <div className="flex items-center gap-1 bg-orange-50 rounded-lg px-3 py-1.5 ml-auto">
-                            <span className="text-sm text-orange-600">⏰</span>
-                            <span className="text-sm font-mono font-bold text-orange-600">
+                          <div className="flex items-center gap-1 bg-orange-50 rounded-lg px-2 sm:px-3 py-1 sm:py-1.5 ml-auto">
+                            <span className="text-xs sm:text-sm text-orange-600">⏰</span>
+                            <span className="text-xs sm:text-sm font-mono font-bold text-orange-600">
                               {formatTime(timeLeft)}
                             </span>
                           </div>
                         </div>
                         <div className="flex items-baseline gap-2 mb-3">
-                          <span className="text-4xl font-extrabold text-green-600">
+                          <span className="text-2xl sm:text-4xl font-extrabold text-green-600">
                             {Math.round(plan.price * 0.8)}
                           </span>
-                          <span className="text-2xl text-green-600">₽</span>
+                          <span className="text-lg sm:text-2xl text-green-600">₽</span>
                         </div>
                       </div>
                     ) : (
                       <div className="flex items-baseline gap-2 mb-3">
-                        <span className="text-4xl font-extrabold text-gray-900">
+                        <span className="text-2xl sm:text-4xl font-extrabold text-gray-900">
                           {plan.price}
                         </span>
-                        <span className="text-2xl text-gray-600">₽</span>
+                        <span className="text-lg sm:text-2xl text-gray-600">₽</span>
                       </div>
                     )}
 
                     {/* Цена за токен */}
                     <div className="mb-3 pb-3 border-b border-gray-200">
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         <span className="font-semibold text-gray-800">
                           {plan.pricePerToken.toFixed(2)}₽
                         </span>
@@ -301,17 +301,17 @@ export default function PricingPage() {
                   </div>
 
                   {/* Преимущества */}
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 text-gray-700">
-                      <span className="text-green-500 text-xl">✓</span>
+                  <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                    <div className="flex items-center gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                      <span className="text-green-500 text-lg sm:text-xl">✓</span>
                       <span>Мгновенная активация</span>
                     </div>
-                    <div className="flex items-center gap-3 text-gray-700">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-center gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                      <span className="text-green-500 text-lg sm:text-xl">✓</span>
                       <span>Без ограничений по времени</span>
                     </div>
-                    <div className="flex items-center gap-3 text-gray-700">
-                      <span className="text-green-500 text-xl">✓</span>
+                    <div className="flex items-center gap-2 sm:gap-3 text-gray-700 text-sm sm:text-base">
+                      <span className="text-green-500 text-lg sm:text-xl">✓</span>
                       <span>Все модели нейросетей</span>
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export default function PricingPage() {
                   <button
                     onClick={() => handlePayment(plan)}
                     disabled={selectedPlan === plan.id}
-                    className={`w-full bg-gradient-to-r ${plan.color} text-white font-bold py-4 px-6 rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-lg`}
+                    className={`w-full bg-gradient-to-r ${plan.color} text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-lg`}
                   >
                     {selectedPlan === plan.id ? (
                       <span className="flex items-center justify-center gap-2">
@@ -341,15 +341,15 @@ export default function PricingPage() {
         </div>
 
         {/* Дополнительная информация */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-8 mb-4 sm:mb-8">
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            <h3 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">
               🎁 Специальное предложение
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4">
               Скидка действует ограниченное время! Не упустите возможность получить токены по выгодной цене.
             </p>
-            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-500">
               <div className="flex items-center gap-2">
                 <span className="text-green-500">✓</span>
                 <span>Безопасная оплата</span>

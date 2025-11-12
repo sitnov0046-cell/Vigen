@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useTelegramWebApp } from '@/hooks/useTelegramWebApp';
 import { BottomNavigation } from '@/components/BottomNavigation';
-import { TOKENS_PER_VIDEO } from '@/lib/constants';
 
 interface Transaction {
   id: number;
@@ -157,8 +156,6 @@ export default function BalancePage() {
     );
   }
 
-  const availableVideos = Math.floor(balance / TOKENS_PER_VIDEO);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-2xl">
@@ -176,13 +173,12 @@ export default function BalancePage() {
               <span className="text-xl sm:text-2xl">🎬</span>
             </div>
             <div className="text-center w-full">
-              <p className="text-white/80 text-sm sm:text-base font-semibold mb-0.5 sm:mb-1">Этого хватит для генерации</p>
+              <p className="text-white/80 text-sm sm:text-base font-semibold mb-0.5 sm:mb-1">Этого хватит для генерации максимум:</p>
               <div className="flex items-center justify-center gap-2">
-                <span className="text-white font-bold text-xl sm:text-2xl">{availableVideos}</span>
+                <span className="text-white font-bold text-xl sm:text-2xl">{Math.floor(balance / 6)}</span>
                 <span className="text-white font-bold text-xl sm:text-2xl">видео</span>
               </div>
-            </div>
-          </div>
+            </div>          </div>
           <button
             onClick={() => window.location.href = '/pricing'}
             className="mt-2 bg-white text-purple-600 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold hover:bg-purple-50 active:bg-purple-50 transition-colors w-full text-sm sm:text-base"

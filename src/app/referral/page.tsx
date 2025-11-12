@@ -208,7 +208,7 @@ export default function ReferralPage() {
       </button>
     </div>
     <p className="text-gray-600 text-xs sm:text-sm mb-1">Поделитесь этой ссылкой с друзьями в сообщениях или выложите в сторис, чтобы получать бонусы за их регистрацию!</p>
-    <p className="text-gray-400 text-xs">Чем больше друзей — тем больше заработок!</p>
+    <p className="text-gray-600 text-xs sm:text-sm">Чем больше друзей — тем больше заработок!</p>
   </div>
 
         {/* Лидерборд */}
@@ -226,7 +226,7 @@ export default function ReferralPage() {
               <p>🥇 <span className="font-semibold">1 место (15%)</span> — минимум 10 новых рефералов/неделю</p>
               <p>🥈 <span className="font-semibold">2 место (13%)</span> — минимум 7 новых рефералов/неделю</p>
               <p>🥉 <span className="font-semibold">3 место (11%)</span> — минимум 5 новых рефералов/неделю</p>
-              <p>📊 <span className="font-semibold">Остальные (10%)</span> — от 1 нового реферала/неделю</p>
+              <p>📊 <span className="font-semibold">Остальные (10%)</span> — от 1 реферала за всё время</p>
             </div>
             <p className="text-xs text-gray-600 italic">
               Процент начисляется от всех трат рефералов. Каждую неделю счётчик обнуляется — все начинают заново!
@@ -290,7 +290,7 @@ export default function ReferralPage() {
                       @{entry.username}
                     </p>
                     <p className="text-xs sm:text-sm text-gray-600 truncate">
-                      {entry.referralCount} рефералов • {entry.totalEarned}₽
+                      {entry.referralCount} реф. • {entry.totalEarned}₽
                     </p>
                   </div>
                 </div>
