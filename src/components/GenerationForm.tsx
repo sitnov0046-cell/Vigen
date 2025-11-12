@@ -134,27 +134,27 @@ const GenerationForm = () => {
 
   return (
     <div className="w-full">
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-2xl p-8 border-4 border-gradient">
-        <div className="space-y-6">
-          <label className="block text-gray-800 font-semibold text-lg">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 border-2 sm:border-4 border-gradient">
+        <div className="space-y-4 sm:space-y-6">
+          <label className="block text-gray-800 font-semibold text-base sm:text-lg">
             ✨ Опишите видео, которое хотите создать
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="mt-3 w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-base"
+              className="mt-2 sm:mt-3 w-full px-4 sm:px-5 py-3 sm:py-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-base sm:text-lg"
               placeholder={getPromptPlaceholder()}
-              rows={4}
+              rows={5}
               disabled={isGenerating}
             />
           </label>
 
-          <div className="mt-6">
-            <label className="block text-gray-800 font-semibold mb-3 text-lg">
+          <div className="mt-4 sm:mt-6">
+            <label className="block text-gray-800 font-semibold mb-2 sm:mb-3 text-base sm:text-lg">
               🖼️ Добавить референс (необязательно)
             </label>
-            <div className="flex items-center space-x-4">
-              <label className="flex items-center justify-center px-6 py-3 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-purple-50 transition-all">
-                <span className="text-gray-700 font-medium">📎 Выбрать изображение</span>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+              <label className="w-full sm:w-auto flex items-center justify-center px-6 sm:px-8 py-4 sm:py-5 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-purple-50 transition-all">
+                <span className="text-gray-700 font-bold text-base sm:text-lg">📎 Выбрать изображение</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -164,7 +164,7 @@ const GenerationForm = () => {
                 />
               </label>
               {imageFile && (
-                <span className="text-green-600 font-medium flex items-center gap-2">
+                <span className="text-green-600 font-bold flex items-center gap-2 text-sm sm:text-base">
                   ✓ {imageFile.name}
                 </span>
               )}
@@ -174,27 +174,27 @@ const GenerationForm = () => {
         </div>
 
         {/* Слайдер выбора модели */}
-        <div className="mb-6 mt-8">
-          <label className="block text-gray-800 font-semibold mb-3 text-lg">
+        <div className="mb-4 sm:mb-6 mt-6 sm:mt-8">
+          <label className="block text-gray-800 font-semibold mb-2 sm:mb-3 text-base sm:text-lg">
             🤖 Выберите нейросеть
           </label>
           <button
             onClick={handleModelChange}
             type="button"
-            className="w-full relative h-16 bg-gray-100 rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 hover:border-purple-300"
+            className="w-full relative h-16 sm:h-20 bg-gray-100 rounded-xl overflow-hidden transition-all duration-300 border-2 border-gray-200 hover:border-purple-300"
           >
             <div
               className={`absolute top-0 h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300 ${
                 selectedModel === 'sora' ? 'left-0 w-1/2' : 'left-1/2 w-1/2'
               }`}
             />
-            <div className="relative z-10 h-full flex items-center justify-between px-4">
-              <div className={`flex-1 text-center transition-colors duration-300 font-bold text-lg ${
+            <div className="relative z-10 h-full flex items-center justify-between px-3 sm:px-4">
+              <div className={`flex-1 text-center transition-colors duration-300 font-bold text-lg sm:text-xl ${
                 selectedModel === 'sora' ? 'text-white' : 'text-gray-600'
               }`}>
                 Sora 2
               </div>
-              <div className={`flex-1 text-center transition-colors duration-300 font-bold text-lg ${
+              <div className={`flex-1 text-center transition-colors duration-300 font-bold text-lg sm:text-xl ${
                 selectedModel === 'veo' ? 'text-white' : 'text-gray-600'
               }`}>
                 Veo 3
@@ -203,29 +203,29 @@ const GenerationForm = () => {
           </button>
 
           {/* Подсказка о выбранной модели */}
-          <div className="mt-3 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
+          <div className="mt-3 p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-200">
             {selectedModel === 'sora' ? (
               <div className="flex items-start gap-2">
-                <span className="text-2xl">🎬</span>
+                <span className="text-xl sm:text-2xl flex-shrink-0">🎬</span>
                 <div>
-                  <p className="font-bold text-gray-800 mb-1">SORA 2 • Видео с аудио</p>
-                  <p className="text-sm text-gray-700">
+                  <p className="font-bold text-gray-800 mb-1 text-sm sm:text-base">SORA 2 • Видео с аудио</p>
+                  <p className="text-xs sm:text-sm text-gray-700">
                     <span className="font-semibold">Без изображения:</span> создаст видео с синхронизированным звуком по вашему описанию
                   </p>
-                  <p className="text-sm text-gray-700 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-700 mt-1">
                     <span className="font-semibold">С изображением:</span> анимирует загруженное изображение со звуком согласно описанию движения
                   </p>
                 </div>
               </div>
             ) : (
               <div className="flex items-start gap-2">
-                <span className="text-2xl">⚡</span>
+                <span className="text-xl sm:text-2xl flex-shrink-0">⚡</span>
                 <div>
-                  <p className="font-bold text-gray-800 mb-1">Veo 3 • Видео с аудио</p>
-                  <p className="text-sm text-gray-700">
+                  <p className="font-bold text-gray-800 mb-1 text-sm sm:text-base">Veo 3 • Видео с аудио</p>
+                  <p className="text-xs sm:text-sm text-gray-700">
                     <span className="font-semibold">Без изображения:</span> создаст видео с аудио по вашему описанию
                   </p>
-                  <p className="text-sm text-gray-700 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-700 mt-1">
                     <span className="font-semibold">С изображением:</span> создаст видео с аудио, используя изображение как референс стиля
                   </p>
                 </div>
@@ -235,44 +235,44 @@ const GenerationForm = () => {
         </div>
 
         {/* Выбор ориентации */}
-        <div className="mb-6 mt-6">
-          <label className="block text-gray-800 font-semibold mb-3 text-lg">
+        <div className="mb-4 sm:mb-6 mt-4 sm:mt-6">
+          <label className="block text-gray-800 font-semibold mb-2 sm:mb-3 text-base sm:text-lg">
             📐 Ориентация видео
           </label>
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
               onClick={() => setAspectRatio('16:9')}
-              className={`p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2 ${
+              className={`p-4 sm:p-5 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2 ${
                 aspectRatio === '16:9'
                   ? 'border-purple-500 bg-purple-50 shadow-lg'
                   : 'border-gray-200 bg-white hover:border-purple-300'
               }`}
             >
-              <div className={`text-4xl ${aspectRatio === '16:9' ? 'scale-110' : ''} transition-transform`}>
+              <div className={`text-3xl sm:text-4xl ${aspectRatio === '16:9' ? 'scale-110' : ''} transition-transform`}>
                 🖥️
               </div>
               <div className="text-center">
-                <div className="font-bold text-gray-800">Горизонтальное</div>
-                <div className="text-sm text-gray-500">16:9 • YouTube</div>
+                <div className="font-bold text-gray-800 text-sm sm:text-base">Горизонтальное</div>
+                <div className="text-xs sm:text-sm text-gray-500">16:9 • YouTube</div>
               </div>
             </button>
 
             <button
               type="button"
               onClick={() => setAspectRatio('9:16')}
-              className={`p-4 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2 ${
+              className={`p-4 sm:p-5 rounded-xl border-2 transition-all duration-200 flex flex-col items-center gap-2 ${
                 aspectRatio === '9:16'
                   ? 'border-purple-500 bg-purple-50 shadow-lg'
                   : 'border-gray-200 bg-white hover:border-purple-300'
               }`}
             >
-              <div className={`text-4xl ${aspectRatio === '9:16' ? 'scale-110' : ''} transition-transform`}>
+              <div className={`text-3xl sm:text-4xl ${aspectRatio === '9:16' ? 'scale-110' : ''} transition-transform`}>
                 📱
               </div>
               <div className="text-center">
-                <div className="font-bold text-gray-800">Вертикальное</div>
-                <div className="text-sm text-gray-500">9:16 • Соцсети</div>
+                <div className="font-bold text-gray-800 text-sm sm:text-base">Вертикальное</div>
+                <div className="text-xs sm:text-sm text-gray-500">9:16 • Соцсети</div>
               </div>
             </button>
           </div>
@@ -280,8 +280,8 @@ const GenerationForm = () => {
 
         {/* Выбор длительности (только для SORA 2) */}
         {selectedModel === 'sora' && (
-          <div className="mb-6">
-            <label className="block text-gray-800 font-semibold mb-3 text-lg">
+          <div className="mb-4 sm:mb-6">
+            <label className="block text-gray-800 font-semibold mb-2 sm:mb-3 text-base sm:text-lg">
               ⏱️ Длительность видео
             </label>
             <div className="flex gap-3">
@@ -290,7 +290,7 @@ const GenerationForm = () => {
                   key={sec}
                   type="button"
                   onClick={() => setDuration(sec as Duration)}
-                  className={`flex-1 py-3 px-4 rounded-xl border-2 font-bold transition-all duration-200 ${
+                  className={`flex-1 py-4 sm:py-5 px-4 sm:px-5 rounded-xl border-2 font-bold transition-all duration-200 text-base sm:text-lg ${
                     duration === sec
                       ? 'border-purple-500 bg-purple-500 text-white shadow-lg scale-105'
                       : 'border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-50'
@@ -306,7 +306,7 @@ const GenerationForm = () => {
         <button
           type="submit"
           disabled={isGenerating}
-          className={`w-full mt-6 text-xl py-5 px-6 rounded-xl font-bold text-white transition-all duration-200 shadow-lg ${
+          className={`w-full mt-4 sm:mt-6 text-lg sm:text-2xl py-5 sm:py-6 px-6 sm:px-8 rounded-xl font-bold text-white transition-all duration-200 shadow-lg ${
             isGenerating
               ? 'bg-gray-400 cursor-not-allowed'
               : 'bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:scale-105 active:scale-95 hover:shadow-2xl animate-pulse-slow'
@@ -314,12 +314,12 @@ const GenerationForm = () => {
         >
           {isGenerating ? '⏳ Генерация...' : '🎬 Начать генерацию'}
         </button>
-        <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200">
-          <p className="text-center text-gray-700 text-base font-semibold flex items-center justify-center gap-2">
+        <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200">
+          <p className="text-center text-gray-700 text-base sm:text-lg font-semibold flex items-center justify-center gap-2">
             <span>💎</span>
             <span>Стоимость генерации: {tokenCost} токенов</span>
           </p>
-          <p className="text-center text-gray-500 text-sm mt-1">
+          <p className="text-center text-gray-500 text-sm sm:text-base mt-1">
             {selectedModel === 'veo'
               ? 'Veo 3 • 8 секунд видео с аудио'
               : `SORA 2 • ${duration} секунд видео с аудио`}

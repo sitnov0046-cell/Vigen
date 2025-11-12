@@ -181,7 +181,7 @@ export default function BalancePage() {
             </div>          </div>
           <button
             onClick={() => window.location.href = '/pricing'}
-            className="mt-2 bg-white text-purple-600 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold hover:bg-purple-50 active:bg-purple-50 transition-colors w-full text-sm sm:text-base"
+            className="mt-2 bg-white text-purple-600 px-6 sm:px-8 py-4 sm:py-5 rounded-lg sm:rounded-xl font-bold hover:bg-purple-50 active:bg-purple-50 transition-colors w-full text-lg sm:text-xl"
           >
             Пополнить баланс
           </button>

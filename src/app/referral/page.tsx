@@ -170,13 +170,13 @@ export default function ReferralPage() {
       <p className="text-white font-bold text-xl sm:text-2xl">+{earnedToday}₽</p>
     </div>
     <div className="flex flex-col gap-2 sm:gap-3 mt-3 sm:mt-4">
-      <button className="relative px-4 sm:px-6 py-2.5 sm:py-3 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-sm sm:text-lg overflow-hidden group">
+      <button className="relative px-6 sm:px-8 py-4 sm:py-5 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-lg sm:text-xl overflow-hidden group">
         <span className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-400 via-pink-400 to-emerald-400 transition-all"></span>
         <span className="relative z-10 flex items-center gap-2">
           🔄 Обменять рубли на токены
         </span>
       </button>
-      <button className="relative px-4 sm:px-6 py-2.5 sm:py-3 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-sm sm:text-lg overflow-hidden group">
+      <button className="relative px-6 sm:px-8 py-4 sm:py-5 bg-white rounded-xl sm:rounded-2xl font-bold text-gray-800 shadow-md active:bg-gray-50 transition-all flex items-center justify-center gap-2 text-lg sm:text-xl overflow-hidden group">
         <span className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 via-pink-400 to-indigo-400 transition-all"></span>
         <span className="relative z-10 flex items-center gap-2">
           💸 Вывести рубли
@@ -202,7 +202,7 @@ export default function ReferralPage() {
       />
       <button
         onClick={copyReferralLink}
-        className="px-4 sm:px-6 py-2 bg-blue-500 text-white rounded-lg sm:rounded-xl font-semibold active:bg-blue-600 transition-all whitespace-nowrap text-sm sm:text-base shadow-md"
+        className="px-6 sm:px-8 py-4 sm:py-5 bg-blue-500 text-white rounded-lg sm:rounded-xl font-bold active:bg-blue-600 transition-all whitespace-nowrap text-lg sm:text-xl shadow-md"
       >
         {copiedLink ? '✓ Скопировано' : '📋 Копировать'}
       </button>

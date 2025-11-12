@@ -87,18 +87,11 @@ export default function PricingPage() {
   const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
-    // Проверяем, новый ли пользователь (зарегистрирован менее 24 часов назад)
+    // Проверяем, новый ли пользователь (зарегистрирован менее 4 часов назад)
     const checkNewUser = async () => {
-      const userId = webApp?.initDataUnsafe?.user?.id || 123456789;
+      const userId = webApp?.initDataUnsafe?.user?.id;
 
-      // ВРЕМЕННО: Режим тестирования - всегда показываем как нового пользователя
-      // TODO: Убрать после тестирования
-      const TEST_MODE = true;
-
-      if (TEST_MODE) {
-        setIsNewUser(true);
-        // Тестовый таймер на 2 часа
-        setTimeLeft(2 * 60 * 60);
+      if (!userId) {
         return;
       }
 
@@ -114,7 +107,7 @@ export default function PricingPage() {
             setIsNewUser(true);
             // Вычисляем оставшееся время в секундах (4 часа)
             const secondsLeft = Math.floor((4 * 60 * 60) - (hoursSinceRegistration * 60 * 60));
-            setTimeLeft(secondsLeft);
+            setTimeLeft(secondsLeft > 0 ? secondsLeft : 0);
           }
         }
       } catch (error) {
@@ -159,7 +152,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-200 via-blue-200 to-pink-200 animate-gradient bg-300% pb-20">
-      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-4xl">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-5xl">
         {/* Заголовок */}
         <div className="text-center mb-4 sm:mb-8">
           <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-3">Выберите тариф</h1>
@@ -187,7 +180,7 @@ export default function PricingPage() {
         </div>
 
         {/* Карточки тарифов */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-8 max-w-3xl mx-auto">
           {pricingPlans.map((plan) => {
             return (
               <div
@@ -320,7 +313,7 @@ export default function PricingPage() {
                   <button
                     onClick={() => handlePayment(plan)}
                     disabled={selectedPlan === plan.id}
-                    className={`w-full bg-gradient-to-r ${plan.color} text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-lg`}
+                    className={`w-full bg-gradient-to-r ${plan.color} text-white font-bold py-4 sm:py-5 px-6 sm:px-8 rounded-lg sm:rounded-xl shadow-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed text-lg sm:text-xl`}
                   >
                     {selectedPlan === plan.id ? (
                       <span className="flex items-center justify-center gap-2">

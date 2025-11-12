@@ -8,15 +8,6 @@ import GenerationForm from '@/components/GenerationForm';
 import { SplashScreen } from '@/components/SplashScreen';
 
 export default function Home() {
-  // MOCK: Пример данных пользователя для предпросмотра
-  const mockUser = {
-    username: 'preview_user',
-    photoUrl: 'https://i.pravatar.cc/100?img=3',
-    tokens: 42,
-    videos: 7,
-    referrals: 3,
-    publicId: 'L123456'
-  };
   const [userInfo, setUserInfo] = useState<{ username?: string; photoUrl?: string; balance?: number; videosCount?: number; referralsCount?: number; publicId?: string }>({});
   const [showForm, setShowForm] = useState(false);
   const [showSplash, setShowSplash] = useState(true);
@@ -133,63 +124,53 @@ export default function Home() {
           {/* Заголовок */}
           <div className="text-center mb-4 sm:mb-8">
             <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-2 sm:mb-3">
-              Генератор видео - LIKS
+              👑 Генератор видео - LIKS 👑
             </h1>
             <p className="text-gray-600 text-sm sm:text-lg mb-4 sm:mb-6">
               Создавайте потрясающие видео с помощью ИИ<br />и делитесь ими с друзьями
             </p>
 
             {/* Блок информации о пользователе */}
-            <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-5 bg-white/90 rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-5 my-3 sm:my-5 border-2 sm:border-4 border-blue-400 bg-clip-padding animate-fadeIn hover:shadow-2xl hover:border-blue-500 transition-all duration-300">
-              <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
-                {userInfo.photoUrl || mockUser.photoUrl ? (
-                  <img src={userInfo.photoUrl || mockUser.photoUrl} alt="avatar" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 sm:border-4 border-white shadow-lg object-cover transition-transform duration-300 hover:scale-105 flex-shrink-0" />
+            <div className="relative flex flex-col items-center gap-4 sm:gap-5 bg-white/90 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 my-3 sm:my-5 border-2 sm:border-4 border-blue-400 bg-clip-padding animate-fadeIn hover:shadow-2xl hover:border-blue-500 transition-all duration-300">
+              <div className="flex flex-col items-center gap-3 w-full">
+                {userInfo.photoUrl ? (
+                  <img src={userInfo.photoUrl} alt="avatar" className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white shadow-lg object-cover transition-transform duration-300 hover:scale-105" />
                 ) : (
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 flex items-center justify-center text-2xl sm:text-3xl font-bold text-gray-600 border-2 sm:border-4 border-white shadow-lg flex-shrink-0">
-                    {(userInfo.username || mockUser.username)[0]?.toUpperCase()}
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 flex items-center justify-center text-3xl sm:text-4xl font-bold text-gray-600 border-4 border-white shadow-lg">
+                    {(userInfo.username || 'U')[0]?.toUpperCase()}
                   </div>
                 )}
-                <div className="flex flex-col justify-center gap-1 min-w-0">
-                  <span className="font-bold text-base sm:text-xl text-gray-800 tracking-wide drop-shadow-sm truncate">@{userInfo.username || mockUser.username}</span>
-                  {(userInfo.publicId || mockUser.publicId) && (
-                    <span className="text-gray-500 text-xs sm:text-sm">Ваш ID:
-                      <span className="ml-1 font-mono font-bold text-purple-600 text-xs sm:text-base">{userInfo.publicId || mockUser.publicId}</span>
-                    </span>
+                <div className="flex flex-col items-center gap-2 w-full">
+                  <span className="font-bold text-lg sm:text-2xl text-gray-800 tracking-wide drop-shadow-sm">@{userInfo.username || 'username'}</span>
+                  {userInfo.publicId && (
+                    <div className="bg-purple-50 px-4 py-2 rounded-xl border-2 border-purple-200">
+                      <span className="text-gray-600 text-sm sm:text-base">Ваш ID: </span>
+                      <span className="font-mono font-bold text-purple-600 text-base sm:text-lg">{userInfo.publicId}</span>
+                    </div>
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-3 sm:gap-4 w-full sm:flex-1 text-center sm:text-left">
+              <div className="grid grid-cols-3 gap-4 sm:gap-6 w-full text-center pt-2 border-t-2 border-gray-100">
                 <div className="flex flex-col">
-                  <span className="text-gray-500 text-xs sm:text-sm mb-0.5">Токенов</span>
-                  <span className="font-bold text-blue-700 text-base sm:text-xl">{userInfo.balance ?? mockUser.tokens}</span>
+                  <span className="text-gray-500 text-xs sm:text-sm mb-1">Токенов</span>
+                  <span className="font-bold text-blue-700 text-lg sm:text-2xl">{userInfo.balance ?? 0}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-gray-500 text-xs sm:text-sm mb-0.5">Видео</span>
-                  <span className="font-bold text-blue-700 text-base sm:text-xl">{userInfo.videosCount ?? mockUser.videos}</span>
+                  <span className="text-gray-500 text-xs sm:text-sm mb-1">Видео</span>
+                  <span className="font-bold text-blue-700 text-lg sm:text-2xl">{userInfo.videosCount ?? 0}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-gray-500 text-xs sm:text-sm mb-0.5">Рефералов</span>
-                  <span className="font-bold text-blue-700 text-base sm:text-xl">{userInfo.referralsCount ?? mockUser.referrals}</span>
+                  <span className="text-gray-500 text-xs sm:text-sm mb-1">Рефералов</span>
+                  <span className="font-bold text-blue-700 text-lg sm:text-2xl">{userInfo.referralsCount ?? 0}</span>
                 </div>
               </div>
-            </div>
-
-            {/* Демо видео */}
-            <div className="my-3 sm:my-5">
-              <DemoVideo
-                src="/videos/Видео 1.mp4"
-                className="mb-3 sm:mb-4 mx-auto max-w-2xl"
-              />
-              <p className="text-gray-500 text-xs sm:text-sm italic mb-4 sm:mb-6">
-                Пример сгенерированного видео
-              </p>
             </div>
 
             {/* Кнопки */}
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 max-w-2xl mx-auto my-3 sm:my-5">
               <button
                 onClick={handleCreateVideo}
-                className="flex-1 text-base sm:text-xl py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-bold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white active:scale-95 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                className="flex-1 text-lg sm:text-2xl py-4 sm:py-5 px-6 sm:px-8 rounded-lg sm:rounded-xl font-bold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white active:scale-95 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
               >
                 <span>✨</span>
                 <span>Создать видео</span>
@@ -197,7 +178,7 @@ export default function Home() {
 
               <Link
                 href="/instructions"
-                className="flex-1 text-base sm:text-xl py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-white active:scale-95 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
+                className="flex-1 text-lg sm:text-2xl py-4 sm:py-5 px-6 sm:px-8 rounded-lg sm:rounded-xl font-bold bg-gradient-to-r from-blue-500 to-cyan-500 text-white active:scale-95 transition-all duration-200 shadow-lg flex items-center justify-center gap-2"
               >
                 <span>📖</span>
                 <span>Инструкция</span>
@@ -214,7 +195,7 @@ export default function Home() {
 
           {/* Особенности */}
           {/* Новости */}
-          <div className="my-8 sm:my-10">
+          <div className="my-12 sm:my-16">
             <h2 className="text-lg sm:text-2xl font-bold text-gray-800 mb-3 sm:mb-4">📰 Новости и обновления</h2>
             <div className="max-h-72 overflow-y-auto flex flex-col gap-3 sm:gap-4 pr-1 sm:pr-2 custom-scrollbar-news">
               {/* Новость 1: Появление реферальной ссылки (NEW) */}
