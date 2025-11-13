@@ -7,8 +7,11 @@ interface DemoVideoProps {
 export function DemoVideo({ src, poster, className = '' }: DemoVideoProps) {
   return (
     <div className={`relative w-full aspect-video rounded-lg overflow-hidden shadow-xl ${className}`}>
+      {/* Placeholder пока видео загружается */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-blue-900/30 to-purple-900/30 animate-pulse" />
+
       <video
-        className="w-full h-full object-cover"
+        className="relative w-full h-full object-cover z-10"
         autoPlay
         loop
         muted
@@ -19,7 +22,7 @@ export function DemoVideo({ src, poster, className = '' }: DemoVideoProps) {
         <source src={src} type="video/mp4" />
         Ваш браузер не поддерживает видео
       </video>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-20 pointer-events-none"></div>
     </div>
   );
 }
