@@ -18,7 +18,7 @@ export function TelegramScript() {
           tg.setBackgroundColor('#0f172a'); // Тёмный фон
         }
 
-        // Отключаем встроенный loader Telegram
+        // Отключаем вертикальные свайпы для закрытия
         if (tg.disableVerticalSwipes) {
           tg.disableVerticalSwipes();
         }

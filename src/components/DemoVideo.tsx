@@ -13,6 +13,7 @@ export function DemoVideo({ src, poster, className = '' }: DemoVideoProps) {
         loop
         muted
         playsInline
+        preload="metadata"
         poster={poster}
       >
         <source src={src} type="video/mp4" />
