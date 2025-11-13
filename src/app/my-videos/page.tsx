@@ -191,7 +191,7 @@ export default function MyVideosPage() {
   }
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pt-16 pb-20">
       <StarryBackground />
       <div className="container mx-auto px-3 py-4 max-w-6xl">
         <h1 className="text-2xl sm:text-3xl font-bold mb-4 text-gray-800">🎬 Мои видео</h1>
