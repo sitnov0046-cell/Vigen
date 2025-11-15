@@ -162,7 +162,7 @@ export default function Home() {
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
       <StarryBackground />
 
-      <main className={`min-h-screen flex items-center justify-center pt-16 sm:pt-12 pb-20 sm:pb-24 transition-opacity duration-500 ${
+      <main className={`min-h-screen flex items-center justify-center pt-20 sm:pt-16 pb-20 sm:pb-24 transition-opacity duration-500 ${
         isContentReady ? 'opacity-100' : 'opacity-0 invisible pointer-events-none'
       }`}>
         <div className="container mx-auto px-3 sm:px-5 max-w-4xl">

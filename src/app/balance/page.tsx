@@ -158,7 +158,7 @@ export default function BalancePage() {
   }
 
   return (
-    <div className="min-h-screen pt-16 pb-20">
+    <div className="min-h-screen pt-20 pb-20">
       <StarryBackground />
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-2xl">
         {/* Заголовок */}

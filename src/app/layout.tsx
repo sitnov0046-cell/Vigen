@@ -30,7 +30,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
-      <body className="pt-[max(env(safe-area-inset-top),20px)] pb-[env(safe-area-inset-bottom)]">
+      <body className="pt-[max(env(safe-area-inset-top),32px)] pb-[env(safe-area-inset-bottom)]">
         <TelegramScript />
         {children}
         <div className="pb-20">{/* Отступ для нижней навигации */}</div>
