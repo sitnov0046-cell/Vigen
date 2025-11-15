@@ -45,7 +45,7 @@ export default function Home() {
       setShowForm(true);
       // Небольшая задержка для прокрутки после рендера
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 300);
     }
   }, [searchParams]);
@@ -144,11 +144,11 @@ export default function Home() {
       setShowForm(true);
       // Даём время на рендер формы, затем прокручиваем
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
     } else {
       // Если форма уже открыта, просто прокручиваем к ней
-      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   };
 
@@ -160,11 +160,11 @@ export default function Home() {
   return (
     <>
       {showSplash && <SplashScreen onFinish={handleSplashFinish} />}
-      <StarryBackground />
+      {!showSplash && <StarryBackground />}
 
       <main className={`min-h-screen flex items-center justify-center pt-20 sm:pt-16 pb-20 sm:pb-24 transition-opacity duration-500 ${
         isContentReady ? 'opacity-100' : 'opacity-0 invisible pointer-events-none'
-      }`}>
+      }`} style={{ display: showSplash ? 'none' : 'flex' }}>
         <div className="container mx-auto px-3 sm:px-5 max-w-4xl">
           {/* Блок с информацией о пользователе */}
           {/* Заголовок */}
