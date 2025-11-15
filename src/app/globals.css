@@ -15,6 +15,12 @@
   body {
     background: #0f172a;
   }
+
+  /* Скрываем весь контент до загрузки React */
+  body:not(.hydrated) main {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
 }
 
 /* Gradient animation */

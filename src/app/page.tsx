@@ -27,6 +27,9 @@ export default function Home() {
 
   // Проверяем, нужно ли показывать splash screen
   useEffect(() => {
+    // Добавляем класс hydrated к body для отключения CSS-скрытия
+    document.body.classList.add('hydrated');
+
     // На localhost всегда показываем splash для предпросмотра
     const isLocalhost = window.location.hostname === 'localhost';
     const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
