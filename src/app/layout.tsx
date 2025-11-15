@@ -29,6 +29,14 @@ export default function RootLayout({
     <html lang="ru" className={inter.className}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            body:not(.hydrated) main {
+              opacity: 0 !important;
+              visibility: hidden !important;
+            }
+          `
+        }} />
       </head>
       <body className="pt-[max(env(safe-area-inset-top),32px)] pb-[env(safe-area-inset-bottom)]">
         <TelegramScript />
