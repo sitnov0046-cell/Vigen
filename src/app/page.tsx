@@ -20,7 +20,7 @@ export default function Home() {
   });
   const [showForm, setShowForm] = useState(false);
   const [showSplash, setShowSplash] = useState(false);
-  const [isContentReady, setIsContentReady] = useState(true);
+  const [isContentReady, setIsContentReady] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const { webApp } = useTelegramWebApp();
   const formRef = useRef<HTMLDivElement>(null);
@@ -34,6 +34,9 @@ export default function Home() {
     if (isLocalhost || !hasSeenSplash) {
       setShowSplash(true);
       setIsContentReady(false);
+    } else {
+      // Если splash не нужен, сразу показываем контент
+      setIsContentReady(true);
     }
     setIsMounted(true);
   }, []);
@@ -45,7 +48,11 @@ export default function Home() {
       setShowForm(true);
       // Небольшая задержка для прокрутки после рендера
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (formRef.current) {
+          const yOffset = -100;
+          const y = formRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
       }, 300);
     }
   }, [searchParams]);
@@ -144,11 +151,19 @@ export default function Home() {
       setShowForm(true);
       // Даём время на рендер формы, затем прокручиваем
       setTimeout(() => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (formRef.current) {
+          const yOffset = -100; // Отступ сверху для лучшей видимости
+          const y = formRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
       }, 100);
     } else {
       // Если форма уже открыта, просто прокручиваем к ней
-      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (formRef.current) {
+        const yOffset = -100;
+        const y = formRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }
   };
 
